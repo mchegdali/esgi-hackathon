@@ -1,6 +1,6 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
-import { ActionMessage } from "@workadventure/iframe-api-typings";
+import { type ActionMessage } from "@workadventure/iframe-api-typings";
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 
 console.log("Script started successfully");
@@ -15,11 +15,19 @@ WA.onInit()
     console.log("Player tags: ", WA.player.tags);
 
     WA.room.onEnterLayer("start").subscribe(() => {
+      playerHasEnteredArea({ playerName: WA.player.name, areaName: "start" });
+
       if (!WA.player.state.loadVariable("ftue")) {
+        WA.controls.disablePlayerControls();
+        WA.controls.disablePlayerProximityMeeting();
+        WA.controls.disableWebcam();
+        WA.controls.disableMicrophone();
+
         WA.ui.modal.openModal(
           {
             title: "WorkAdventure website",
             src: `${window.location.origin}/modals/modal.html`,
+            // src: `https://workadventu.re`,
             allow: null,
             allowApi: true,
             position: "center",
@@ -32,22 +40,20 @@ WA.onInit()
             });
           }
         );
+
+        WA.chat.sendChatMessage(
+          `${WA.player.name} a rejoint le monde de FlopStory ! Souhaitez-lui la bienvenue !`
+        );
       }
+    });
 
-      // WA.chat.sendChatMessage(
-      //   `${WA.player.name} a rejoint le monde de FlopStory !`
-      // );
+    WA.room.onLeaveLayer("start").subscribe(async () => {
+      await WA.player.setOutlineColor(0, 0, 255);
 
-      // if (!currentActionMessage) {
-      //   currentActionMessage = WA.ui.displayActionMessage({
-      //     message: "Bienvenue dans le monde de FlopStory !",
-      //     callback: () => {},
-      //   });
-
-      //   setTimeout(() => {
-      //     currentActionMessage?.remove();
-      //   }, 1500);
-      // }
+      WA.controls.restorePlayerControls();
+      WA.controls.restorePlayerProximityMeeting();
+      WA.controls.restoreWebcam();
+      WA.controls.restoreMicrophone();
     });
 
     WA.room.area.onEnter("clock").subscribe(() => {
