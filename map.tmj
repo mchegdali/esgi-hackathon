@@ -35,6 +35,28 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
+         "id":66,
+         "name":"starting-area",
+         "objects":[
+                {
+                 "height":32,
+                 "id":20,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":256,
+                 "y":608
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
             3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
             3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -61,7 +83,7 @@
          "name":"collisions",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":31,
          "x":0,
          "y":0
@@ -93,7 +115,7 @@
          "name":"silence",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":31,
          "x":0,
          "y":0
@@ -606,8 +628,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":65,
- "nextobjectid":20,
+ "nextlayerid":67,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "properties":[
         {
