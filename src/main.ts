@@ -1,10 +1,13 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+import { QuizManager } from "./quizManager";
 
 console.log('Script started successfully');
 
 let currentPopup: any = undefined;
+
+let quizManager = new QuizManager(WA);
 
 // Waiting for the API to be ready
 WA.onInit().then(() => {
@@ -17,17 +20,27 @@ WA.onInit().then(() => {
         currentPopup = WA.ui.openPopup("clockPopup", "It's " + time, []);
     })
 
+    // Déclencheur pour le quiz
+    WA.room.area.onEnter('quizZone').subscribe(() => {
+        quizManager.openQuiz();
+    });
+
     WA.room.area.onLeave('clock').subscribe(closePopup)
 
-    // Calculate delay for the specific time
-    const targetDate = new Date('2024-04-23T17:41:00'); // Set the target date and time
-    const now = new Date();
-    const delay = targetDate.getTime() - now.getTime(); // Delay in milliseconds
+    // Déclencheur pour fermer le quiz
+    WA.room.area.onLeave('quizZone').subscribe(() => {
+        WA.ui.modal.closeModal();  // Ferme le modal actuellement ouvert
+    });
 
-    if (delay > 0) { // Check if the target time is in the future
+
+    // On spécifie la date à laquelle on va passer l'audio
+    const targetDate = new Date('2024-04-23T17:41:00');
+    const now = new Date();
+    const delay = targetDate.getTime() - now.getTime(); //le délai qui va permettre de déclencher l'audio
+
+    if (delay > 0) {
         setTimeout(() => {
-            console.log("frefre");
-            var mySound = WA.sound.loadSound("./sounds/voix 1.mp3");
+            var mySound = WA.sound.loadSound("../sounds/voix 1.mp3");
             var config = {
                 volume : 0.5,
                 loop : false,

@@ -461,6 +461,28 @@
                  "width":32,
                  "x":64,
                  "y":544
+                }, 
+                {
+                 "height":150.697,
+                 "id":20,
+                 "name":"quizZone",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":180.2727,
+                 "x":120.86365,
+                 "y":274.1515
+                }, 
+                {
+                 "height":198.6673,
+                 "id":21,
+                 "name":"quizPopup",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":253.7162,
+                 "x":330.1419,
+                 "y":162.16635
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -543,7 +565,7 @@
          "y":0
         }],
  "nextlayerid":63,
- "nextobjectid":20,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "properties":[
         {
