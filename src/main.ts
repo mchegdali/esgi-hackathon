@@ -19,6 +19,28 @@ WA.onInit().then(() => {
 
     WA.room.area.onLeave('clock').subscribe(closePopup)
 
+    // Calculate delay for the specific time
+    const targetDate = new Date('2024-04-23T17:41:00'); // Set the target date and time
+    const now = new Date();
+    const delay = targetDate.getTime() - now.getTime(); // Delay in milliseconds
+
+    if (delay > 0) { // Check if the target time is in the future
+        setTimeout(() => {
+            console.log("frefre");
+            var mySound = WA.sound.loadSound("./sounds/voix 1.mp3");
+            var config = {
+                volume : 0.5,
+                loop : false,
+                rate : 1,
+                detune : 1,
+                delay : 0,
+                seek : 0,
+                mute : false
+            }
+            mySound.play(config);
+        }, delay);
+    }
+
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
         console.log('Scripting API Extra ready');

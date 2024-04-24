@@ -1,0 +1,1 @@
+WA.chat.sendChatMessage('Hello wooooooooooooooooooooooorld', 'Mr Robot');
