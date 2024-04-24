@@ -461,6 +461,57 @@
                  "width":32,
                  "x":64,
                  "y":544
+                }, 
+                {
+                 "height":67,
+                 "id":30,
+                 "name":"devinePopup",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":187.333333333333,
+                 "x":383.666666666667,
+                 "y":334.333333333333
+                }, 
+                {
+                 "height":155,
+                 "id":40,
+                 "name":"devineQui",
+                 "properties":[
+                        {
+                         "name":"focusable",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":225,
+                 "x":367,
+                 "y":288
+                }, 
+                {
+                 "height":0,
+                 "id":42,
+                 "name":"noteText",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":287,
+                 "y":419
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -574,8 +625,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":64,
- "nextobjectid":20,
+ "nextlayerid":74,
+ "nextobjectid":44,
  "orientation":"orthogonal",
  "properties":[
         {
