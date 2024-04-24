@@ -4,16 +4,16 @@ interface EnterAreaData {
 }
 
 function playerHasEnteredArea({ playerName, areaName }: EnterAreaData) {
-  WA.event.broadcast("player:has-entered-area", { playerName, areaName });
+  WA.event.broadcast('player:has-entered-area', { playerName, areaName });
 
-  WA.event.on("player:has-entered-area").subscribe(({ data, senderId }) => {
+  WA.event.on('player:has-entered-area').subscribe(({ data, senderId }) => {
     const { playerName, areaName } = data as EnterAreaData;
 
     switch (areaName) {
-      case "start":
+      case 'start':
         if (WA.player.playerId !== senderId) {
           WA.ui.banner.openBanner({
-            id: "welcomeBanner",
+            id: 'welcomeBanner',
             text: `${playerName} s'est connecté`,
           });
         }
@@ -23,3 +23,5 @@ function playerHasEnteredArea({ playerName, areaName }: EnterAreaData) {
     }
   });
 }
+
+export default playerHasEnteredArea;
