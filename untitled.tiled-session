@@ -1,0 +1,192 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "flopstory.tmj",
+    "expandedProjectPaths": [
+        ".",
+        "tilesets"
+    ],
+    "fileStates": {
+        "": {
+            "scaleInDock": 8
+        },
+        "#Exterior": {
+            "scaleInDock": 0.5
+        },
+        "#Exterior_2": {
+            "scaleInDock": 0.25
+        },
+        "#Int_Office": {
+            "scaleInDock": 1
+        },
+        "#WA_Room_Builder": {
+            "scaleInDock": 1
+        },
+        "conference.tmj": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 384,
+                "y": 212
+            }
+        },
+        "conference.tmj#WA_Decoration": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Exterior": {
+            "scaleInDock": 0.75
+        },
+        "conference.tmj#WA_Logo_Long": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Miscellaneous": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Other_Furniture": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Room_Builder": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Seats": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Special_Zones": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_Tables": {
+            "scaleInDock": 1
+        },
+        "conference.tmj#WA_User_Interface": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1138,
+                "y": 1234
+            }
+        },
+        "flopstory.tmj#Bob_idle_16x16": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Exterior": {
+            "scaleInDock": 0.5
+        },
+        "flopstory.tmj#Exterior_2": {
+            "scaleInDock": 0.5
+        },
+        "flopstory.tmj#Int_Basement": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Int_Birthday_party": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Int_Classroom_and_library": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Int_Museum": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Int_Music_and_sport": {
+            "scaleInDock": 0.75
+        },
+        "flopstory.tmj#Int_Office": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Int_Television_and_Film_Studio": {
+            "scaleInDock": 0.75
+        },
+        "flopstory.tmj#Interiors_free_32x32": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#Room_Builder_free_32x32": {
+            "scaleInDock": 1
+        },
+        "flopstory.tmj#WA_Room_Builder": {
+            "scaleInDock": 0.5
+        },
+        "flopstory.tmj#WA_Special_Zones": {
+            "scaleInDock": 1
+        },
+        "map.tmj": {
+            "expandedGroupLayers": [
+                51,
+                55,
+                54
+            ],
+            "scale": 0.6061995967741934,
+            "selectedLayer": 12,
+            "viewCenter": {
+                "x": 886.6716554419224,
+                "y": 246.6184418391952
+            }
+        },
+        "map.tmj#WA_Decoration": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Exterior": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Logo_Long": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Miscellaneous": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Other_Furniture": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Room_Builder": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Seats": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Special_Zones": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_Tables": {
+            "scaleInDock": 1
+        },
+        "map.tmj#WA_User_Interface": {
+            "scaleInDock": 1
+        },
+        "tilesets/Exterior.tsx": {
+            "scaleInDock": 1
+        },
+        "tilesets/Exterior_2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/Int_Office.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "/Users/mariny/Documents no cloud/GitHub/esgi-hackathon/tilesets",
+    "map.height": 50,
+    "map.lastUsedFormat": "json",
+    "map.width": 70,
+    "openFiles": [
+        "conference.tmj",
+        "flopstory.tmj"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "conference.tmj",
+        "flopstory.tmj",
+        "tilesets/Int_Office.tsx",
+        "tilesets/Exterior_2.tsx",
+        "map.tmj"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}
