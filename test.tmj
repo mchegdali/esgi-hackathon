@@ -52,7 +52,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -83,7 +83,7 @@
          "name":"collisions",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":31,
          "x":0,
          "y":0
@@ -115,7 +115,7 @@
          "name":"silence",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":31,
          "x":0,
          "y":0
@@ -190,7 +190,7 @@
          "name":"floor",
          "opacity":1,
          "type":"group",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -264,7 +264,7 @@
          "name":"walls",
          "opacity":1,
          "type":"group",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -370,7 +370,7 @@
          "name":"furniture",
          "opacity":1,
          "type":"group",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -518,7 +518,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -592,7 +592,7 @@
          "name":"above",
          "opacity":1,
          "type":"group",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -628,12 +628,36 @@
                  "id":22,
                  "name":"flop-stories-area",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"[]"
+                        }],
                  "rotation":0,
                  "type":"variable",
                  "visible":true,
                  "width":0,
-                 "x":0,
-                 "y":-1.07984542535242
+                 "x":9.71860882817177,
+                 "y":-42.1139715887444
+                }, 
+                {
+                 "height":0,
+                 "id":26,
+                 "name":"flop-stories-questions",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"[]"
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":143.619441571872,
+                 "y":-39.9542807380395
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -642,7 +666,7 @@
          "y":0
         }],
  "nextlayerid":69,
- "nextobjectid":23,
+ "nextobjectid":27,
  "orientation":"orthogonal",
  "properties":[
         {
