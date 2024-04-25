@@ -466,8 +466,14 @@
                  "height":67,
                  "id":30,
                  "name":"devinePopup",
+                 "properties":[
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
-                 "type":"area",
+                 "type":"",
                  "visible":true,
                  "width":187.333333333333,
                  "x":383.666666666667,
@@ -510,8 +516,8 @@
                  "type":"variable",
                  "visible":true,
                  "width":0,
-                 "x":287,
-                 "y":419
+                 "x":726,
+                 "y":-126
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -626,7 +632,7 @@
          "y":0
         }],
  "nextlayerid":74,
- "nextobjectid":44,
+ "nextobjectid":47,
  "orientation":"orthogonal",
  "properties":[
         {

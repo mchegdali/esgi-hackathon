@@ -25,15 +25,34 @@ function selectRandomCharacter(): Perso {
     return selectedCharacter;
 }
 let currentPopup: any = undefined;
-
-// Définir la fonction pour ouvrir le popup
-export async function openPopup() {
+export async function addDescription() {
     
     const randomCharacter = selectRandomCharacter();
-    WA.state.saveVariable
+    const tabjoueur =   [WA.player.playerId , randomCharacter.description,randomCharacter.name]
+    WA.player.state.saveVariable("devine", tabjoueur, {
+        public: true,
+        persist: true,
+      });
+    console.log(WA.player.state.hasVariable('devine'));
+    const joueur = WA.player.state.hasVariable("noteText"); 
+    console.log( WA.state.saveVariable("noteText",tabjoueur));
     
-    const myWebsite = await WA.ui.website.open({
-        url: "./test.html",
+    console.log(joueur);
+}
+// Définir la fonction pour ouvrir le popup
+export async function openPopup() {
+    const randomCharacter = selectRandomCharacter();
+    const tabjoueur = [WA.player.playerId , randomCharacter.description,randomCharacter.name]
+    WA.player.state.saveVariable("devine", tabjoueur, {
+        public: true,
+        persist: true,
+      });
+    console.log(WA.player.state.hasVariable('devine'));
+    const joueur = await WA.player.state.hasVariable("noteText"); 
+     WA.state.noteText= tabjoueur;
+     console.log(tabjoueur)
+     const myWebsite = await WA.ui.website.open({
+        url: "./note.html",
         position: {
             vertical: "middle",
             horizontal: "middle",
@@ -43,7 +62,6 @@ export async function openPopup() {
             width: "50vw",
         },
     });
-    currentPopup = WA.ui.openPopup('devinePopUp',randomCharacter.description ,[])
 }
 
 // Définir la fonction pour fermer le popup

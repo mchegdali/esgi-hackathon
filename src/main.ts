@@ -1,37 +1,27 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
-console.log('Script started successfully');
+import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+import { openPopup , closePopup} from "./jeux";
 
-// Waiting for the API to be ready
+console.log('Script started successfully');
 WA.onInit().then(() => {
     console.log('Scripting API ready');
+    console.log('Player tags: ',WA.player.tags)
+   WA.state.onVariableChange('noteText').subscribe((value)=>{
+        console.log(value);
+   });
+    WA.room.area.onEnter('devineQui').subscribe(() => {
+        openPopup();
+    })
 
-    let noteWebsite: any;
+    WA.room.area.onLeave('devineQui').subscribe(() => {
+        closePopup();
+    })
 
-    WA.room.onEnterLayer("visibleNote").subscribe(async () => {
-        console.log("Entering visibleNote layer");
-
-        noteWebsite = await WA.ui.website.open({
-            url: "note.html",
-            position: {
-                vertical: "top",
-                horizontal: "middle",
-            },
-            size: {
-                height: "30vh",
-                width: "50vw",
-            },
-            margin: {
-                top: "10vh",
-            },
-            allowApi: true,
-        });
-
-    });
-    
-    WA.room.onLeaveLayer("visibleNote").subscribe(() => {
-        noteWebsite.close();
-    });
+    // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
+    bootstrapExtra().then(() => {
+        console.log('Scripting API Extra ready');
+    }).catch(e => console.error(e));
 
 }).catch(e => console.error(e));
 
