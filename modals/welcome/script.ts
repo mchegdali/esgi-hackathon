@@ -1,3 +1,5 @@
+/// <reference types="@workadventure/iframe-api-typings" />
+
 const titleEl = document.getElementById('title');
 const descriptionEl = document.getElementById('description');
 const nextBtnEl = document.getElementById('nextBtn');
@@ -61,8 +63,10 @@ if (titleEl && descriptionEl && nextBtnEl && previousBtnEl) {
   nextBtnEl.addEventListener('click', () => {
     if (currentStep < steps.length - 1) {
       currentStep++;
+      updateDescription(currentStep);
+    } else if (currentStep === steps.length - 1) {
+      WA.ui.modal.closeModal();
     }
-    updateDescription(currentStep);
   });
 
   previousBtnEl.addEventListener('click', () => {
