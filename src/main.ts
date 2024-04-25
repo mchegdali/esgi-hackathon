@@ -10,8 +10,8 @@ WA.onInit().then(() => {
    WA.state.onVariableChange('noteText').subscribe((value)=>{
         console.log(value);
    });
-    WA.room.area.onEnter('devineQui').subscribe(() => {
-        openPopup();
+    WA.room.area.onEnter('devineQui').subscribe(async () => {
+        await openPopup();
     })
 
     WA.room.area.onLeave('devineQui').subscribe(() => {

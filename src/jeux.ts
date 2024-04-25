@@ -1,9 +1,13 @@
+import { UIWebsite } from "@workadventure/iframe-api-typings";
 
+console.log('Script started successfully hehe');
 interface Perso {
     name: string;
     description: string;
 }
 
+
+let myWebsite: UIWebsite | undefined;
 // Définir les personnages célèbres pour le jeu
 let personnage : Perso [] = [
     { name: "Albert Einstein", description: "JE SUIS Physicien théoricien connu pour sa théorie de la relativité." },
@@ -48,10 +52,10 @@ export async function openPopup() {
         persist: true,
       });
     console.log(WA.player.state.hasVariable('devine'));
-    const joueur = await WA.player.state.hasVariable("noteText"); 
-     WA.state.noteText= tabjoueur;
-     console.log(tabjoueur)
-     const myWebsite = await WA.ui.website.open({
+    // const joueur = await WA.player.state.hasVariable("noteText"); 
+    //  WA.state.noteText= tabjoueur;
+    //  console.log(tabjoueur)
+     myWebsite = await WA.ui.website.open({
         url: "./note.html",
         position: {
             vertical: "middle",
@@ -61,13 +65,16 @@ export async function openPopup() {
             height: "50vh",
             width: "50vw",
         },
+        allowApi: true,
     });
 }
 
 // Définir la fonction pour fermer le popup
 export function closePopup() {
-    if (currentPopup !== undefined) {
-        currentPopup.close();
-        currentPopup = undefined;
+    console.log(myWebsite);
+    if (myWebsite !== undefined) {
+        myWebsite.close();
+       myWebsite = undefined;
     }
 }
+
