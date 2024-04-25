@@ -9,63 +9,110 @@ let currentPopup: any = undefined;
 
 let quizManager = new QuizManager(WA);
 
+const audioFiles = [
+    {
+        name: "bienvenu.mp3",
+        htmlSrc: "http://localhost:5173/templates/bienvenu.html"
+    },
+    {
+        name: "mission_quiz.mp3",
+        htmlSrc: "http://localhost:5173/templates/mission_quiz.html"
+    },
+    {
+        name: "regle_quiz.mp3",
+        htmlSrc: "http://localhost:5173/templates/regle_quiz.html"
+    },
+    {
+        name: "mission_devine_qui.mp3",
+        htmlSrc: "http://localhost:5173/templates/mission_devine_qui.html"
+    },
+    {
+        name: "regle_devine_qui.mp3",
+        htmlSrc: "http://localhost:5173/templates/regle_devine_qui.html"
+    },
+    {
+        name: "mission_flop_story.mp3",
+        htmlSrc: "http://localhost:5173/templates/mission_flop_story.html"
+    },
+    {
+        name: "regle_flop_story.mp3",
+        htmlSrc: "http://localhost:5173/templates/regle_flop_story.html"
+    }
+];
+
+
 // Waiting for the API to be ready
 WA.onInit().then(() => {
     console.log('Scripting API ready');
     console.log('Player tags: ',WA.player.tags)
-
-    WA.room.area.onEnter('clock').subscribe(() => {
-        const today = new Date();
-        const time = today.getHours() + ":" + today.getMinutes();
-        currentPopup = WA.ui.openPopup("clockPopup", "It's " + time, []);
-    })
 
     // Déclencheur pour le quiz
     WA.room.area.onEnter('quizZone').subscribe(() => {
         quizManager.openQuiz();
     });
 
-    WA.room.area.onLeave('clock').subscribe(closePopup)
-
     // Déclencheur pour fermer le quiz
     WA.room.area.onLeave('quizZone').subscribe(() => {
-        WA.ui.modal.closeModal();  // Ferme le modal actuellement ouvert
+        //// Ferme le modal du quiz
+        quizManager.closeQuiz();
     });
-
-
-    // On spécifie la date à laquelle on va passer l'audio
-    const targetDate = new Date('2024-04-23T17:41:00');
-    const now = new Date();
-    const delay = targetDate.getTime() - now.getTime(); //le délai qui va permettre de déclencher l'audio
-
-    if (delay > 0) {
-        setTimeout(() => {
-            var mySound = WA.sound.loadSound("../sounds/voix 1.mp3");
-            var config = {
-                volume : 0.5,
-                loop : false,
-                rate : 1,
-                detune : 1,
-                delay : 0,
-                seek : 0,
-                mute : false
-            }
-            mySound.play(config);
-        }, delay);
-    }
 
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
         console.log('Scripting API Extra ready');
     }).catch(e => console.error(e));
 
+    // On appelle la vérification du temps avec la date et heure cibles
+    const eventDate = new Date('2024-04-25T20:45:00');
+    checkTimeAndTriggerEvent(eventDate);
+
 }).catch(e => console.error(e));
 
-function closePopup(){
-    if (currentPopup !== undefined) {
-        currentPopup.close();
-        currentPopup = undefined;
+//Fonction pour écouter un audio
+function playAudio(audioFile: string) {
+    var sound = WA.sound.loadSound("../sounds/" + audioFile);
+    var config = {
+        volume : 0.5,
+        loop : false,
+        rate : 1,
+        detune : 1,
+        delay : 0,
+        seek : 0,
+        mute : false
+    }
+    sound.play(config);
+}
+
+// Fonction pour faire écouter un audio + afficher le modal associé
+function triggerEvent(audioFile: string, src: string, position: "left" | "right" | "center") {
+    playAudio(audioFile); 
+    showEventModal(src, position); // Affiche le popup
+}
+
+// Fonction pour vérifier l'heure et déclencher l'événement
+function checkTimeAndTriggerEvent(targetTime: Date) {
+    const now = new Date();
+    const delay = targetTime.getTime() - now.getTime();
+
+    if (delay > 0) {
+        setTimeout(() => {
+            triggerEvent(audioFiles[0].name, audioFiles[0].htmlSrc, "right");
+        }, delay);
     }
 }
 
+//Fonction pour afficher un modal
+function showEventModal(src: string, position: "left" | "right" | "center") {
+    if (currentPopup !== undefined) {
+        WA.ui.modal.closeModal(); // Ferme le modal précédent s'il existe
+        currentPopup = undefined;
+    }
+    currentPopup = WA.ui.modal.openModal({
+        title: "Titre", // Titre du modal
+        src: src, // Source HTML ou URL pour le contenu du modal
+        allow: "fullscreen",
+        allowApi: true,
+        position: position // Position du modal
+    });
+}
 export {};

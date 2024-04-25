@@ -483,6 +483,35 @@
                  "width":253.7162,
                  "x":330.1419,
                  "y":162.16635
+                }, 
+                {
+                 "height":0,
+                 "id":22,
+                 "name":"triggerEvent",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"false"
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":36,
+                 "y":-9
+                }, 
+                {
+                 "height":61.6673,
+                 "id":24,
+                 "name":"eventPopup",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":93.7162,
+                 "x":611.1419,
+                 "y":239.16635
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -565,7 +594,7 @@
          "y":0
         }],
  "nextlayerid":63,
- "nextobjectid":22,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "properties":[
         {
