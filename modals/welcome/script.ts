@@ -41,7 +41,7 @@ if (titleEl && descriptionEl && nextBtnEl && previousBtnEl) {
     },
   ];
 
-  function updateDescription(currentStep = 0) {
+  function updateModalContent(currentStep = 0) {
     if (!(titleEl && descriptionEl && nextBtnEl && previousBtnEl)) {
       return;
     }
@@ -58,21 +58,40 @@ if (titleEl && descriptionEl && nextBtnEl && previousBtnEl) {
     }
   }
 
-  updateDescription(currentStep);
+  function manageButtonsVisibility(currentStep = 0) {
+    if (!(nextBtnEl && previousBtnEl)) return;
+
+    if (currentStep === 0) {
+      previousBtnEl.classList.add('hidden');
+    } else {
+      previousBtnEl.classList.remove('hidden');
+    }
+
+    if (currentStep === steps.length - 1) {
+      nextBtnEl.classList.add('hidden');
+    } else {
+      nextBtnEl.classList.remove('hidden');
+    }
+  }
+
+  manageButtonsVisibility(currentStep);
+  updateModalContent(currentStep);
 
   nextBtnEl.addEventListener('click', () => {
     if (currentStep < steps.length - 1) {
       currentStep++;
-      updateDescription(currentStep);
-    } else if (currentStep === steps.length - 1) {
-      WA.ui.modal.closeModal();
+      updateModalContent(currentStep);
     }
+
+    manageButtonsVisibility(currentStep);
   });
 
   previousBtnEl.addEventListener('click', () => {
     if (currentStep > 0) {
       currentStep--;
+      updateModalContent(currentStep);
     }
-    updateDescription(currentStep);
+
+    manageButtonsVisibility(currentStep);
   });
 }
