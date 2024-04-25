@@ -18,8 +18,28 @@ function playerHasLeftArea({ playerName, areaName }: LeftAreaEventData) {
           });
         }
         break;
+      case 'flop-stories':
+        const flopStoriesArea = WA.state.loadVariable('flop-stories-area');
+
+        if (
+          typeof flopStoriesArea === 'object' &&
+          !!flopStoriesArea &&
+          'count' in flopStoriesArea &&
+          typeof flopStoriesArea.count === 'number'
+        ) {
+          if (flopStoriesArea.count > 0) {
+            const nbPlayerInArea = flopStoriesArea.count;
+            WA.state.saveVariable('flop-stories-area', {
+              ...flopStoriesArea,
+              count: nbPlayerInArea - 1,
+            });
+          }
+        }
+        break;
       default:
         break;
     }
   });
 }
+
+export default playerHasLeftArea;

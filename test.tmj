@@ -614,12 +614,35 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":68,
+         "name":"variables",
+         "objects":[
+                {
+                 "height":0,
+                 "id":22,
+                 "name":"flop-stories-area",
+                 "point":true,
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":0,
+                 "y":-1.07984542535242
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }],
- "nextlayerid":68,
- "nextobjectid":22,
+ "nextlayerid":69,
+ "nextobjectid":23,
  "orientation":"orthogonal",
  "properties":[
         {
