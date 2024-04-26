@@ -512,6 +512,17 @@
                  "width":93.7162,
                  "x":611.1419,
                  "y":239.16635
+                }, 
+                {
+                 "height":150.697,
+                 "id":25,
+                 "name":"flopStoryZone",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":180.273,
+                 "x":389.8635,
+                 "y":524.6515
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -594,7 +605,7 @@
          "y":0
         }],
  "nextlayerid":63,
- "nextobjectid":25,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "properties":[
         {

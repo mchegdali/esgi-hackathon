@@ -2,12 +2,15 @@
 
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
 import { QuizManager } from "./quizManager";
+import { FlopStoryManager } from "./flopStoryManager";
 
 console.log('Script started successfully');
 
 let currentPopup: any = undefined;
+let currentModal: any = undefined;
 
-let quizManager = new QuizManager(WA);
+let quizManager = new QuizManager(WA, showEventModal, closeEventModal);
+let flopStoryManager = new FlopStoryManager(WA, showEventModal, closeEventModal);
 
 const audioFiles = [
     {
@@ -57,6 +60,17 @@ WA.onInit().then(() => {
         quizManager.closeQuiz();
     });
 
+    // Déclencheur pour flop story
+    WA.room.area.onEnter('flopStoryZone').subscribe(() => {
+        flopStoryManager.openFlopStory();
+    });
+
+    // Déclencheur pour fermer flop story
+    WA.room.area.onLeave('flopStoryZone').subscribe(() => {
+        //// Ferme le modal de flop story
+        flopStoryManager.closeFlopStory();
+    });
+
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra().then(() => {
         console.log('Scripting API Extra ready');
@@ -103,11 +117,11 @@ function checkTimeAndTriggerEvent(targetTime: Date) {
 
 //Fonction pour afficher un modal
 function showEventModal(src: string, position: "left" | "right" | "center") {
-    if (currentPopup !== undefined) {
+    if (currentModal !== undefined) {
         WA.ui.modal.closeModal(); // Ferme le modal précédent s'il existe
-        currentPopup = undefined;
+        currentModal = undefined;
     }
-    currentPopup = WA.ui.modal.openModal({
+    currentModal = WA.ui.modal.openModal({
         title: "Titre", // Titre du modal
         src: src, // Source HTML ou URL pour le contenu du modal
         allow: "fullscreen",
@@ -115,4 +129,14 @@ function showEventModal(src: string, position: "left" | "right" | "center") {
         position: position // Position du modal
     });
 }
+
+//Fonction pour fermer un modal
+function closeEventModal() {
+    if (currentModal !== undefined) {
+        WA.ui.modal.closeModal(); // Ferme le modal précédent s'il existe
+        currentModal = undefined;
+        WA.controls.restorePlayerControls();
+    }
+}
+
 export {};
