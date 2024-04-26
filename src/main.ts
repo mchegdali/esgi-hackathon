@@ -10,6 +10,13 @@ console.log('Script started successfully');
 WA.onInit()
   .then(async () => {
     console.log('Scripting API ready');
+    const isAdmin = WA.player.tags.includes('admin');
+    if (isAdmin) {
+      WA.ui.displayActionMessage({
+        message: 'Vous êtes administrateur.',
+        callback: () => {},
+      });
+    }
     console.log('Player tags: ', WA.player.tags);
 
     onFirstTimeEnter();
