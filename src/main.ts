@@ -1,7 +1,7 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 import { bootstrapExtra } from '@workadventure/scripting-api-extra';
-import onFirstTimeEnter from './events/on-first-time-enter';
+// import onFirstTimeEnter from './events/on-first-time-enter';
 import manageUsers from './events/manage-users';
 
 console.log('Script started successfully');
