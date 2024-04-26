@@ -117,6 +117,7 @@ function afficherScore(score: number) {
     scoreDisplay.style.display = "block";
   }
 }
+
 function gestionValidate() {
   const joueurId = WA.player.uuid;
   let score = 0;
