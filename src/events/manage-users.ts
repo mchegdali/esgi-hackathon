@@ -1,14 +1,12 @@
 import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
 export default async function manageUsers() {
+  await WA.players.configureTracking();
   // manage styles
   const isAdmin = WA.player.tags.includes('admin');
 
   if (isAdmin) {
-    await Promise.all([
-      WA.player.setOutlineColor(0, 0, 0),
-      WA.players.configureTracking(),
-    ]);
+    await WA.player.setOutlineColor(0, 0, 0);
   }
 
   for (const { areaName, variableName, btnId, eventName } of eventAreas) {
