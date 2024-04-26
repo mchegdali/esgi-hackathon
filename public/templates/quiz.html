@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="w-full max-w-xl p-8 bg-white rounded-lg shadow-md">
+        <h1 class="bg-green-500 text-white text-2xl font-bold text-center py-4 rounded">Quiz Time !</h1>
+        <form id="quizForm">
+
+            <!-- Question 1 -->
+            <div id="question1" class="question mt-2">
+                <p class="text-lg font-medium">Question 1 : Quel animal cause le plus de mort humaine tous les ans ?</p>
+                <div class="flex justify-center">
+                    <img src="../images/quiz/animal.png" alt="Image descriptive" class="max-w-full h-auto">
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q1r1" name="q1" value="serpent" class="accent-green-500">
+                    <label for="q1r1" class="ml-2 text-gray-600">Serpent</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q1r2" name="q1" value="requin" class="accent-green-500">
+                    <label for="q1r2" class="ml-2 text-gray-600">Requin</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q1r3" name="q1" value="crocodile" class="accent-green-500">
+                    <label for="q1r3" class="ml-2 text-gray-600">Crocodile</label>
+                </div>
+                <button type="button" onclick="nextQuestion(1)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Question suivante</button>
+            </div>
+
+            <!-- Question 2 -->
+            <div id="question2" class="question hidden mt-2">
+                <p class="text-lg font-medium">Question 2 : Combien de moustiques devraient nous piquer pour nous vider de notre sang ?</p>
+                <div class="flex justify-center">
+                    <img src="../images/quiz/moustique.png" alt="Image descriptive" class="max-w-full h-auto">
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q2r1" name="q2" value="100000" class="accent-green-500">
+                    <label for="q2r1" class="ml-2 text-gray-600">100 000</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q2r2" name="q2" value="1000000" class="accent-green-500">
+                    <label for="q2r2" class="ml-2 text-gray-600">1 million</label>
+                    <!-- bonne reponse -->
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q2r3" name="q2" value="10000000" class="accent-green-500">
+                    <label for="q2r3" class="ml-2 text-gray-600">10 millions</label>
+                </div>
+                <button type="button" onclick="nextQuestion(2)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Question suivante</button>
+            </div>
+
+            <!-- Question 3 -->
+            <div id="question3" class="question hidden mt-2">
+                <p class="text-lg font-medium">Question 3 : Qu'est-ce que la carpophobie ?</p>
+                <div class="flex justify-center">
+                    <img src="../images/quiz/carpe.png" alt="Image descriptive" class="max-w-full h-auto">
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q3r1" name="q3" value="carpes" class="accent-green-500">
+                    <label for="q3r1" class="ml-2 text-gray-600">La phobie des carpes</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q3r2" name="q3" value="fruits" class="accent-green-500">
+                    <label for="q3r2" class="ml-2 text-gray-600">La phobie des fruits</label>
+                    <!-- bonne reponse -->
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q3r3" name="q3" value="eau" class="accent-green-500">
+                    <label for="q3r3" class="ml-2 text-gray-600">La phobie de l'eau</label>
+                </div>
+                <button type="button" onclick="nextQuestion(3)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Question suivante</button>
+            </div>
+
+            <!-- Question 4 -->
+            <div id="question4" class="question hidden mt-2">
+                <p class="text-lg font-medium">Question 4 : Qu'est-ce que les femmes font 2 fois plus que les hommes ?</p>
+                <div class="flex justify-center">
+                    <img src="../images/quiz/femme.png" alt="Image descriptive" class="max-w-full h-auto">
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q4r1" name="q4" value="cligner" class="accent-green-500">
+                    <label for="q4r1" class="ml-2 text-gray-600">Cligner des yeux</label>
+                    <!-- bonne reponse -->
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q4r2" name="q4" value="acheter" class="accent-green-500">
+                    <label for="q4r2" class="ml-2 text-gray-600">Acheter sur internet</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q4r3" name="q4" value="roller" class="accent-green-500">
+                    <label for="q4r3" class="ml-2 text-gray-600">Du roller</label>
+                </div>
+                <button type="button" onclick="nextQuestion(4)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Question suivante</button>
+            </div>            
+
+            <!-- Question 5 -->
+            <div id="question5" class="question hidden mt-2">
+                <p class="text-lg font-medium">Question 5 : Lequel de ces films est le plus cher de tous les temps ?</p>
+                <div class="flex justify-center">
+                    <img src="../images/quiz/hero.png" alt="Image descriptive" class="max-w-full h-auto">
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q5r1" name="q5" value="pirates" class="accent-green-500">
+                    <label for="q5r1" class="ml-2 text-gray-600">Pirates des Caraïbes 4</label>
+                    <!-- bonne reponse -->
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q5r2" name="q5" value="avengers" class="accent-green-500">
+                    <label for="q5r2" class="ml-2 text-gray-600">Avengers</label>
+                </div>
+                <div class="flex justify-center items-center">
+                    <input type="radio" id="q5r3" name="q5" value="avatar" class="accent-green-500">
+                    <label for="q5r3" class="ml-2 text-gray-600">Avatar</label>
+                </div>
+                <button type="button" onclick="submitQuiz()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Soumettre</button>
+            </div>
+            
+            
+        </form>
+    </div>
+    <script>
+        function nextQuestion(current) {
+        var currentQuestion = document.getElementById('question' + current);
+        var nextQuestion = document.getElementById('question' + (current + 1));
+        if (nextQuestion) {
+            currentQuestion.classList.add('hidden');
+            nextQuestion.classList.remove('hidden');
+        } else {
+            submitQuiz();  // Soumission du quiz pour la dernière question
+        }
+    }
+        
+    function submitQuiz() {
+        var form = document.getElementById('quizForm');
+        var score = 0;
+
+        // Tableau des réponses
+        var answers = [
+            {name: 'q1', value: 'serpent'}, 
+            {name: 'q2', value: '1000000'}, 
+            {name: 'q3', value: 'fruits'},  
+            {name: 'q4', value: 'cligner'}, 
+            {name: 'q5', value: 'pirates'}  
+        ];
+
+        answers.forEach(function(answer) {
+            var selected = form.querySelector(`input[name="${answer.name}"]:checked`);
+            if (selected && selected.value === answer.value) {
+                score += 1;
+            }
+        });
+
+        // Affichage du score
+        alert('Votre score total est de ' + score + ' sur ' + answers.length);
+    }
+
+    </script>
+</body>
+</html>
