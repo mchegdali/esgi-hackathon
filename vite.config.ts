@@ -48,22 +48,13 @@ function getModalFiles() {
 
 export default defineConfig({
 
-    base: "./",
-    build: {
-        rollupOptions: {
-            input: {
-                index: "./index.html",
-                note: "./note.html",
-                ...getMapsScripts(maps),
-            },
-        },
-
   base: './',
   build: {
     sourcemap: true,
     rollupOptions: {
       input: {
         index: './index.html',
+        note: "./note.html",
         ...getModalFiles(),
         ...getMapsScripts(maps),
       },

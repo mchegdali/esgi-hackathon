@@ -7,8 +7,7 @@ import { QuizManager } from "./quizManager";
 import { FlopStoryManager } from "./flopStoryManager";
 
 console.log('Script started successfully');
-WA.onInit().then(() => {
-  
+
 let currentPopup: any = undefined;
 let currentModal: any = undefined;
 
@@ -118,7 +117,6 @@ WA.onInit()
 }).catch(e => console.error(e));
 
 
-export {};
 
 //Fonction pour écouter un audio
 function playAudio(audioFile: string) {

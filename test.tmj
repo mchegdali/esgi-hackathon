@@ -608,31 +608,53 @@
                  "rotation":0,
                  "type":"area",
                  "visible":true,
-                 "width":128,
-                 "x":97.6580852337669,
-                 "y":271.696075763348
+                 "width":217.721928220918,
+                 "x":375.414267279375,
+                 "y":574.268961359422
                 }, 
                 {
-                 "height":64,
+                 "height":112.678918502838,
                  "id":27,
                  "name":"quizZone",
                  "rotation":0,
                  "type":"area",
                  "visible":true,
-                 "width":128,
-                 "x":231.877646546563,
-                 "y":316.790072388831
+                 "width":149.953237756182,
+                 "x":111.612083186609,
+                 "y":314.881095192641
                 }, 
                 {
-                 "height":64,
+                 "height":147.994996632349,
                  "id":28,
                  "name":"guessZone",
                  "rotation":0,
                  "type":"area",
                  "visible":true,
-                 "width":128,
-                 "x":94.7372775268057,
-                 "y":384.820334186034
+                 "width":106.046762243818,
+                 "x":324.76902966767,
+                 "y":107.064152140426
+                }, 
+                {
+                 "height":106.902722986626,
+                 "id":29,
+                 "name":"devinePopup",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":209.987491580872,
+                 "x":377.022996247474,
+                 "y":323.571634754161
+                }, 
+                {
+                 "height":149.854709900895,
+                 "id":31,
+                 "name":"devineQui",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":269.165784662754,
+                 "x":345.524872510344,
+                 "y":300.663908399885
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -688,7 +710,7 @@
          "y":0
         }],
  "nextlayerid":69,
- "nextobjectid":29,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "properties":[
         {
