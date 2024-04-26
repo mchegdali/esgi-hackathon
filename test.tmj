@@ -613,15 +613,15 @@
                  "y":574.268961359422
                 }, 
                 {
-                 "height":112.678918502838,
+                 "height":163.345585169505,
                  "id":27,
                  "name":"quizZone",
                  "rotation":0,
                  "type":"area",
                  "visible":true,
-                 "width":149.953237756182,
-                 "x":111.612083186609,
-                 "y":314.881095192641
+                 "width":185.953237756182,
+                 "x":91.612083186609,
+                 "y":264.214428525974
                 }, 
                 {
                  "height":147.994996632349,
@@ -646,7 +646,7 @@
                  "y":323.571634754161
                 }, 
                 {
-                 "height":149.854709900895,
+                 "height":162.263061676128,
                  "id":31,
                  "name":"devineQui",
                  "rotation":0,
@@ -654,7 +654,7 @@
                  "visible":true,
                  "width":269.165784662754,
                  "x":345.524872510344,
-                 "y":300.663908399885
+                 "y":288.255556624651
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -702,6 +702,46 @@
                  "width":0,
                  "x":143.619441571872,
                  "y":-39.9542807380395
+                }, 
+                {
+                 "height":60.1327816799769,
+                 "id":32,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":82.0860194361591,
+                 "x":807.497353988261,
+                 "y":60.1327816799769
+                }, 
+                {
+                 "height":69.6776676609256,
+                 "id":33,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":68.7231790628307,
+                 "x":882.901953237756,
+                 "y":27.6801693447513
+                }, 
+                {
+                 "height":0,
+                 "id":35,
+                 "name":"noteText",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":74.1397735655409,
+                 "y":-2.93723339427179
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -710,7 +750,7 @@
          "y":0
         }],
  "nextlayerid":69,
- "nextobjectid":33,
+ "nextobjectid":38,
  "orientation":"orthogonal",
  "properties":[
         {

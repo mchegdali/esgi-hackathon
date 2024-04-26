@@ -195,4 +195,3 @@ function setupDoorTriggers(zoneName: string, layerName: string) {
 }
 
 export {};
-

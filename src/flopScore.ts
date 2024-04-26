@@ -1,75 +1,69 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+import { closeModal } from "./main";
+
+
 
 console.log('Script started successfully flopStory');
-
-
-function gestionValidate() {
-     const joueurId =  WA.player.uuid;
-     let score = 0;
-   
-     let scoaring = new Map();
-    const savedButton = document.getElementById("savedButton");
-    const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement; // Récupérer le texte entré dans la zone de texte
-            if (noteTextArea) {
-                const enteredText = noteTextArea.value.trim(); 
-                console.log(enteredText);
-            }
-    if (savedButton) {
-        savedButton.addEventListener("click", () => {
-            let celebritieName = "";
-            const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement;
-            if (noteTextArea) {
-                const enteredText = noteTextArea.value.trim().toLocaleLowerCase(); // Récupérer le texte entré dans la zone de texte
-                const characterName = document.getElementById("description").textContent.trim().toLocaleLowerCase();
-                for(let i = 0 ; i < personnage.length ; i++) {
-                    if(characterName.trim().toLocaleLowerCase() === personnage[i].description.trim().toLocaleLowerCase()) {
-                        celebritieName = personnage[i].name.trim().toLocaleLowerCase();
-                        if (celebritieName === enteredText) {
-                            console.log("Le texte correspond au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
-                            score = score + 1 ;
-                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
-                            scoaring.set(joueurId,score);
-                            WA.player.state.saveVariable("noteText", scoaring);
-                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
-                            personnage.splice(i, 1);
-                            console.log("Personnage supprimé avec succès.");
-                            next();
-                            if (personnage.length === 0) {
-                                console.log("Tous les personnages ont été supprimés. Le score final est :", score);
-                                afficherScore(score);
-                            }
-                        } else {    
-                            console.log("Le texte correspond pas au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
-                            scoaring.set(joueurId,score);
-                            WA.player.state.saveVariable("noteText", scoaring)
-                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
-                            console.log( scoaring.set(joueurId,score));
-                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
-                            personnage.splice(i, 1);
-                            console.log("Personnage supprimé avec succès.");
-                            next();
-                            if (personnage.length === 0) {
-                                afficherScore(score);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    } else {
-        console.error("Le bouton n'existe pas.");
+await WA.players.configureTracking();
+const players = WA.players.list();
+for (const player of players) {
+    console.log(`Player ${player.name} score is ${player.state.vote}`);
+}
+ function submitFlopStory() {
+    let vote= new Map();
+    const tabScore = [];
+    let joueur = WA.player.uuid;
+    console.log(joueur);
+    const form = document.getElementById('flopForm');
+    if(form) {
+        form.addEventListener("submit",async (e)=> {
+            e.preventDefault();
+            const fd = new FormData(e.target as HTMLFormElement);
+            const flop = fd.get('flop');
+            tabScore.push(flop)
+            console.log("res",flop)
+            vote.set(joueur,vote );
+            await WA.player.state.saveVariable("flop-stories-questions",vote)
+            console.log("variable workadventure",WA.player.state.loadVariable("flop-stories-questions"));
+            console.log("all player :",WA.players.list());
+            const players = WA.players.list();
+            
+            WA.ui.modal.closeModal();
+            
+           
+        })
     }
-    
+   else {
+    console.log("veuillez envoyer votre formulaire");
+    return 0;
+   }
+}
+
+function gestionScore() {
+    let score = new Map();
+    let joueur = WA.player.uuid;
+    // Obtenir le choix de l'utilisateur depuis la fonction submitFlopStory
+    const selectedFlop = submitFlopStory();
+    console.log(selectedFlop);
+    // Vérifier si un choix a été fait
+    if (selectedFlop) {
+        // Mettre à jour le score du joueur
+        score.set("joueur", selectedFlop);
+        console.log("Le vote est :", score.get("joueur") , "de" , joueur );
+        
+    } else {
+        console.log("Aucun choix n'a été fait.");
+    }
 }
 
 // Appeler la fonction pour dynamiser le contenu du h1 lors du chargement de la page
 window.onload = function() {
     WA.onInit().then(() => {
-
-    dynamiserH1AvecDescription();
-    gestionValidate();
-   
-});
+        submitFlopStory();
+        gestionScore();
+    });
+    
 };
+

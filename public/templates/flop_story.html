@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="../../src/flopScore.ts"></script>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
     <div class="w-full max-w-xl p-8 bg-white rounded-lg shadow-md">
@@ -66,35 +69,26 @@
                 <button type="submit" id="submitFlopStory" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Quelle est l'histoire la plus floppesque ?</button>
             </form>
         </div>
+        
+        <div id="selectedStory" class="hidden mt-4">
+            <p class="text-lg font-medium text-center">L'histoire sélectionnée est :</p>
+            <p id="selectedStoryContent" class="text-lg font-medium text-center"></p>
+        </div>
+        
+
+        
     </div>
-
     <script>
-
-        const vote= document.getElementById('submitFlopStory');
-        vote.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const selectedFlop = document.querySelector('input[name="flop"]:checked').value;
-            alert('Vous avez voté pour : ' + selectedFlop);
-        });
-
         function nextQuestion(current) {
-            const currentQuestion = document.getElementById('question' + current);
-            const nextQuestion = document.getElementById('question' + (current + 1));
-            if (nextQuestion) {
-                currentQuestion.classList.add('hidden');
-                nextQuestion.classList.remove('hidden');
-            } else {
-                submitFlopStory();  // Soumission de flop story pour la dernière question
-            }
+        var currentQuestion = document.getElementById('question' + current);
+        var nextQuestion = document.getElementById('question' + (current + 1));
+        if (nextQuestion) {
+            currentQuestion.classList.add('hidden');
+            nextQuestion.classList.remove('hidden');
+        } else {
+            submitFlopStory();  // Soumission de flop story pour la dernière question
         }
-    
-        function submitFlopStory() {
-            document.getElementById('flopForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const selectedFlop = document.querySelector('input[name="flop"]:checked').value;
-                alert('Vous avez voté pour : ' + selectedFlop);
-            });
-        }
+    }
     </script>
 </body>
 </html>

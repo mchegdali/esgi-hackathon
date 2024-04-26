@@ -148,9 +148,8 @@ function gestionValidate() {
 // Appeler la fonction pour dynamiser le contenu du h1 lors du chargement de la page
 window.onload = function() {
     WA.onInit().then(() => {
-
     dynamiserH1AvecDescription();
     gestionValidate();
    
-});
+    });
 };
