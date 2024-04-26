@@ -1,6 +1,11 @@
 import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
-export default function manageUsers() {
+export default async function manageUsers() {
+  // manage styles
+  if (WA.player.tags.includes('admin')) {
+    await WA.player.setOutlineColor(0, 0, 0);
+  }
+
   for (const { areaName, variableName, btnId, eventName } of eventAreas) {
     if (WA.player.tags.includes('admin')) {
       const playerCountVariableName = `playerCount:${areaName}`;

@@ -8,12 +8,12 @@ console.log('Script started successfully');
 
 // Waiting for the API to be ready
 WA.onInit()
-  .then(() => {
+  .then(async () => {
     console.log('Scripting API ready');
     console.log('Player tags: ', WA.player.tags);
 
     onFirstTimeEnter();
-    manageUsers();
+    await manageUsers();
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra()
       .then(() => {
