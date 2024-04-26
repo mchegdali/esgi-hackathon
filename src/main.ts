@@ -64,9 +64,9 @@ WA.onInit()
         closePopup();
     })
 
-
     // Déclencheur pour le quiz
     WA.room.area.onEnter('quizZone').subscribe(() => {
+        console.log("je rentre zone quiz")
         quizManager.openQuiz();
     });
 
@@ -87,8 +87,16 @@ WA.onInit()
         //// Ferme le modal de flop story
         flopStoryManager.closeFlopStory();
     });
-  
+
+    //Afficher/Masquer les portes pour voir les tunnels
+    setupDoorTriggers('right_door_zone', 'doors/door_right');
+    setupDoorTriggers('center_door_zone', 'doors/door_center');
+    setupDoorTriggers('left_door_zone', 'doors/door_left');
+
+
     const isAdmin = WA.player.tags.includes('admin');
+
+
     if (isAdmin) {
       const adminActionMessage = WA.ui.displayActionMessage({
         message: 'Vous êtes administrateur.',
@@ -173,6 +181,17 @@ function closeEventModal() {
         currentModal = undefined;
         WA.controls.restorePlayerControls();
     }
+}
+
+//Fonction pour afficher/masquer les portes
+function setupDoorTriggers(zoneName: string, layerName: string) {
+    WA.room.area.onEnter(zoneName).subscribe(() => {
+        WA.room.hideLayer(layerName);
+    });
+
+    WA.room.area.onLeave(zoneName).subscribe(() => {
+        WA.room.showLayer(layerName);
+    });
 }
 
 export {};

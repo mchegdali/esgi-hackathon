@@ -2,12 +2,17 @@ import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
 export default async function manageUsers() {
   // manage styles
-  if (WA.player.tags.includes('admin')) {
-    await WA.player.setOutlineColor(0, 0, 0);
+  const isAdmin = WA.player.name === 'La Voix';
+
+  if (isAdmin) {
+    await Promise.all([
+      WA.player.setOutlineColor(0, 0, 0),
+      WA.players.configureTracking(),
+    ]);
   }
 
   for (const { areaName, variableName, btnId, eventName } of eventAreas) {
-    if (WA.player.tags.includes('admin')) {
+    if (isAdmin) {
       const playerCountVariableName = `playerCount:${areaName}`;
       WA.players.onVariableChange(variableName).subscribe(({ value }) => {
         const currentPlayerCount = WA.player.state.loadVariable(
