@@ -37,28 +37,30 @@ function selectRandomCharacter(): Perso {
 }
 function next() {
     const nextPage = document.getElementById('savedButton');
-    if(nextPage) {
-        nextPage.addEventListener('click',()=>{
-            // Si tous les personnages ont été affichés, réinitialiser l'ordre
-            if (displayedCharacters.length === personnage.length) {
-                displayedCharacters = [];
-            }
-            // Sélectionner un personnage qui n'a pas encore été affiché
+    if (nextPage) {
+        nextPage.addEventListener('click', () => {
             let randomCharacter;
-            do {
+    
+            // Tant qu'un personnage déjà affiché est sélectionné, continuez à en choisir un nouveau
+            while (true) {
                 randomCharacter = selectRandomCharacter();
-            } while (displayedCharacters.includes(randomCharacter));
+    
+                // Vérifiez si le personnage sélectionné n'a pas encore été affiché
+                if (!displayedCharacters.includes(randomCharacter)) {
+                    break; // Sortez de la boucle une fois qu'un personnage non affiché est sélectionné
+                }
+            }
+    
             // Mettre à jour le contenu du h1 avec le nouveau personnage
             const descriptionElement = document.getElementById("description");
             if (descriptionElement) {
                 descriptionElement.textContent = randomCharacter.description;
             }
+    
             // Ajouter le personnage à la liste des personnages affichés
             displayedCharacters.push(randomCharacter);
         });
-    }
-    else {
-        console.log("Bouton 'Next' non trouvé !");
+        console.log("Bouton next actif");
     }
 }
 // Fonction pour dynamiser le contenu du h1 avec la description d'un personnage aléatoire
@@ -67,6 +69,21 @@ function dynamiserH1AvecDescription() {
     const descriptionElement = document.getElementById("description");
     if (descriptionElement) {
         descriptionElement.textContent = randomCharacter.description; // Mettre à jour le contenu du h1 avec la description du personnage
+    }
+}
+let score = 0;
+
+// Fonction pour afficher le score
+function afficherScore(score) {
+    const scoreElement = document.getElementById("score");
+    if (scoreElement) {
+        scoreElement.textContent = score.toString();
+    }
+
+    // Affichez le bloc du score
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    if (scoreDisplay) {
+        scoreDisplay.style.display = "block";
     }
 }
 function gestionValidate() {
@@ -97,16 +114,26 @@ function gestionValidate() {
                             scoaring.set(joueurId,score);
                             WA.player.state.saveVariable("noteText", scoaring);
                             console.log("score note text ",WA.player.state.loadVariable("noteText"));
+                            personnage.splice(i, 1);
+                            console.log("Personnage supprimé avec succès.");
                             next();
+                            if (personnage.length === 0) {
+                                console.log("Tous les personnages ont été supprimés. Le score final est :", score);
+                                afficherScore(score);
+                            }
                         } else {    
                             console.log("Le texte correspond pas au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
-
                             scoaring.set(joueurId,score);
                             WA.player.state.saveVariable("noteText", scoaring)
                             console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
                             console.log( scoaring.set(joueurId,score));
                             console.log("score note text ",WA.player.state.loadVariable("noteText"));
+                            personnage.splice(i, 1);
+                            console.log("Personnage supprimé avec succès.");
                             next();
+                            if (personnage.length === 0) {
+                                afficherScore(score);
+                            }
                         }
                     }
                 }
