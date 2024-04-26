@@ -10,7 +10,8 @@ console.log('Script started successfully');
 WA.onInit()
   .then(async () => {
     console.log('Scripting API ready');
-    const isAdmin = WA.player.tags.includes('admin');
+    //const isAdmin = WA.player.tags.includes('admin');
+    const isAdmin = WA.player.name === 'La Voix';
     if (isAdmin) {
       const adminActionMessage = WA.ui.displayActionMessage({
         message: 'Vous êtes administrateur.',

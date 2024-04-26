@@ -2,12 +2,28 @@ import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
 export default async function manageUsers() {
   // manage styles
-  if (WA.player.tags.includes('admin')) {
+  const isAdmin = WA.player.name === 'La Voix';
+
+  if (isAdmin) {
     await WA.player.setOutlineColor(0, 0, 0);
   }
 
+  if (isAdmin) {
+    WA.players.onVariableChange('test').subscribe(({ value }) => {
+      console.log('test variable changed', value);
+    });
+  } else {
+    WA.room.area.onEnter('flopStoryZone').subscribe(() => {
+      WA.player.state.saveVariable('test', Math.random(), {
+        public: true,
+        scope: 'room',
+        persist: false,
+      });
+    });
+  }
+
   for (const { areaName, variableName, btnId, eventName } of eventAreas) {
-    if (WA.player.tags.includes('admin')) {
+    if (isAdmin) {
       const playerCountVariableName = `playerCount:${areaName}`;
       WA.players.onVariableChange(variableName).subscribe(({ value }) => {
         const currentPlayerCount = WA.player.state.loadVariable(
