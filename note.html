@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                background-color: white;
+            }
+            textarea {
+                width: 100%;
+                height: 100px;
+            }
+            pre {
+                text-align: center;
+            }
+        </style>
+        <script src="https://play.workadventu.re/iframe_api.js"></script>
+        <script type="module" src="./src/note.ts"></script>
+    </head>
+
+    <body>
+        <div id="editSection">
+            <div >
+                <h1 id="description"> 
+                </h1>
+                <textarea id="noteTextArea" required placeholder="format de réponse William Shakespeare">
+                    
+                </textarea>
+            </div>
+            <div>
+                <button id="savedButton">Enregistrer votre reponse</button>
+            </div>
+            
+        </div>
+        <pre id="displayText"></pre>
+    </body>
+</html> 

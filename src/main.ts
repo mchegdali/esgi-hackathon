@@ -1,12 +1,14 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+import { openPopup , closePopup} from "./jeux";
 import onFirstTimeEnter from './events/on-first-time-enter';
 import manageUsers from './events/manage-users';
 import { QuizManager } from "./quizManager";
 import { FlopStoryManager } from "./flopStoryManager";
 
 console.log('Script started successfully');
-
+WA.onInit().then(() => {
+  
 let currentPopup: any = undefined;
 let currentModal: any = undefined;
 
@@ -47,9 +49,22 @@ const audioFiles = [
 // Waiting for the API to be ready
 WA.onInit()
   .then(async () => {
+
     console.log('Scripting API ready');
 
     console.log('Player tags: ',WA.player.tags)
+
+   WA.state.onVariableChange('noteText').subscribe((value)=>{
+        console.log(value);
+   });
+    WA.room.area.onEnter('devineQui').subscribe(async () => {
+        await openPopup();
+    })
+
+    WA.room.area.onLeave('devineQui').subscribe(() => {
+        closePopup();
+    })
+
 
     // Déclencheur pour le quiz
     WA.room.area.onEnter('quizZone').subscribe(() => {
@@ -67,18 +82,19 @@ WA.onInit()
         flopStoryManager.openFlopStory();
     });
 
+
     // Déclencheur pour fermer flop story
     WA.room.area.onLeave('flopStoryZone').subscribe(() => {
         //// Ferme le modal de flop story
         flopStoryManager.closeFlopStory();
     });
   
-    //const isAdmin = WA.player.tags.includes('admin');
-    //if (isAdmin) {
-    //  const adminActionMessage = WA.ui.displayActionMessage({
-    //    message: 'Vous êtes administrateur.',
-    //    callback: () => {},
-    //  });
+    const isAdmin = WA.player.tags.includes('admin');
+    if (isAdmin) {
+      const adminActionMessage = WA.ui.displayActionMessage({
+        message: 'Vous êtes administrateur.',
+        callback: () => {},
+      });
 
       setTimeout(async () => {
         await adminActionMessage.remove();
@@ -100,6 +116,9 @@ WA.onInit()
     checkTimeAndTriggerEvent(eventDate);
 
 }).catch(e => console.error(e));
+
+
+export {};
 
 //Fonction pour écouter un audio
 function playAudio(audioFile: string) {
@@ -157,9 +176,6 @@ function closeEventModal() {
         WA.controls.restorePlayerControls();
     }
 }
-      })
-      .catch((e) => console.error(e));
-  })
-  .catch((e) => console.error(e));
 
 export {};
+

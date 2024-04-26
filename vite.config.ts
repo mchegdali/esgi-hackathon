@@ -47,6 +47,17 @@ function getModalFiles() {
 }
 
 export default defineConfig({
+
+    base: "./",
+    build: {
+        rollupOptions: {
+            input: {
+                index: "./index.html",
+                note: "./note.html",
+                ...getMapsScripts(maps),
+            },
+        },
+
   base: './',
   build: {
     sourcemap: true,
@@ -57,6 +68,7 @@ export default defineConfig({
         ...getMapsScripts(maps),
       },
       output: {},
+
     },
   },
   plugins: [...getMapsOptimizers(maps, optimizerOptions)],

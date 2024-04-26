@@ -463,6 +463,7 @@
                  "y":544
                 }, 
                 {
+
                  "height":150.697,
                  "id":20,
                  "name":"quizZone",
@@ -494,11 +495,13 @@
                          "name":"default",
                          "type":"string",
                          "value":"false"
+
                         }],
                  "rotation":0,
                  "type":"variable",
                  "visible":true,
                  "width":0,
+
                  "x":36,
                  "y":-9
                 }, 
@@ -523,6 +526,7 @@
                  "width":180.273,
                  "x":389.8635,
                  "y":524.6515
+
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -604,8 +608,10 @@
          "x":0,
          "y":0
         }],
+
  "nextlayerid":63,
  "nextobjectid":26,
+
  "orientation":"orthogonal",
  "properties":[
         {

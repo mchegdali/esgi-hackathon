@@ -1,0 +1,129 @@
+/// <reference types="@workadventure/iframe-api-typings" />
+
+import { bootstrapExtra } from "@workadventure/scripting-api-extra";
+
+console.log('Script started successfully note.ts');
+
+interface Perso {
+    name: string;
+    description: string;
+}
+
+let currentIndex = 0; // Index du personnage actuellement affiché
+let displayedCharacters: Perso[] = []; // Tableau pour stocker l'ordre des personnages déjà affichés
+
+// Définir les personnages célèbres pour le jeu
+let personnage : Perso [] = [
+    { name: "Albert Einstein", description: "JE SUIS Physicien théoricien connu pour sa théorie de la relativité." },
+    { name: "Marie Curie", description: "Physicienne et chimiste pionnière dans l'étude de la radioactivité." },
+    { name : "William Shakespeare",  description : " Un PNJ dans une bibliothèque ou un théâtre."},
+    { name :"Napoléon Bonaparte",  description : " Un PNJ dans une zone historique ou militaire."},
+    { name :"Cleopatra" , description:  "Un PNJ dans une zone égyptienne ou historique."},
+    { name :"Steve Jobs",  description : "Un PNJ dans une zone technologique ou informatique."},
+    { name: "Marilyn Monroe" , description : "Un PNJ dans une zone de divertissement ou de cinéma."},
+    { name: "James Bond", description : "Un PNJ dans une zone secrète ou d'espionnage."},
+    { name :"Charlie Chaplin" , description : "Un PNJ dans une zone de comédie ou de cinéma muet."},
+];
+function selectRandomCharacter(): Perso {
+    let availableCharacters = personnage.filter(character => !displayedCharacters.includes(character));
+    if (availableCharacters.length === 0) {
+        // Tous les personnages ont déjà été affichés, réinitialiser l'ordre
+        displayedCharacters = [];
+        availableCharacters = personnage;
+    }
+    const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+    const selectedCharacter = availableCharacters[randomIndex];
+    return selectedCharacter;
+}
+function next() {
+    const nextPage = document.getElementById('savedButton');
+    if(nextPage) {
+        nextPage.addEventListener('click',()=>{
+            // Si tous les personnages ont été affichés, réinitialiser l'ordre
+            if (displayedCharacters.length === personnage.length) {
+                displayedCharacters = [];
+            }
+            // Sélectionner un personnage qui n'a pas encore été affiché
+            let randomCharacter;
+            do {
+                randomCharacter = selectRandomCharacter();
+            } while (displayedCharacters.includes(randomCharacter));
+            // Mettre à jour le contenu du h1 avec le nouveau personnage
+            const descriptionElement = document.getElementById("description");
+            if (descriptionElement) {
+                descriptionElement.textContent = randomCharacter.description;
+            }
+            // Ajouter le personnage à la liste des personnages affichés
+            displayedCharacters.push(randomCharacter);
+        });
+    }
+    else {
+        console.log("Bouton 'Next' non trouvé !");
+    }
+}
+// Fonction pour dynamiser le contenu du h1 avec la description d'un personnage aléatoire
+function dynamiserH1AvecDescription() {
+    const randomCharacter = selectRandomCharacter(); // Sélectionner un personnage aléatoire
+    const descriptionElement = document.getElementById("description");
+    if (descriptionElement) {
+        descriptionElement.textContent = randomCharacter.description; // Mettre à jour le contenu du h1 avec la description du personnage
+    }
+}
+function gestionValidate() {
+     const joueurId =  WA.player.uuid;
+     let score = 0;
+   
+     let scoaring = new Map();
+    const savedButton = document.getElementById("savedButton");
+    const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement; // Récupérer le texte entré dans la zone de texte
+            if (noteTextArea) {
+                const enteredText = noteTextArea.value.trim(); 
+                console.log(enteredText);
+            }
+    if (savedButton) {
+        savedButton.addEventListener("click", () => {
+            let celebritieName = "";
+            const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement;
+            if (noteTextArea) {
+                const enteredText = noteTextArea.value.trim().toLocaleLowerCase(); // Récupérer le texte entré dans la zone de texte
+                const characterName = document.getElementById("description").textContent.trim().toLocaleLowerCase();
+                for(let i = 0 ; i < personnage.length ; i++) {
+                    if(characterName.trim().toLocaleLowerCase() === personnage[i].description.trim().toLocaleLowerCase()) {
+                        celebritieName = personnage[i].name.trim().toLocaleLowerCase();
+                        if (celebritieName === enteredText) {
+                            console.log("Le texte correspond au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
+                            score = score + 1 ;
+                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
+                            scoaring.set(joueurId,score);
+                            WA.player.state.saveVariable("noteText", scoaring);
+                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
+                            next();
+                        } else {    
+                            console.log("Le texte correspond pas au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
+
+                            scoaring.set(joueurId,score);
+                            WA.player.state.saveVariable("noteText", scoaring)
+                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
+                            console.log( scoaring.set(joueurId,score));
+                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
+                            next();
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        console.error("Le bouton n'existe pas.");
+    }
+    
+}
+
+// Appeler la fonction pour dynamiser le contenu du h1 lors du chargement de la page
+window.onload = function() {
+    WA.onInit().then(() => {
+
+    dynamiserH1AvecDescription();
+    gestionValidate();
+   
+});
+};
