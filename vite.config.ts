@@ -1,15 +1,15 @@
-import path from 'node:path';
+import path from "node:path";
 
-import 'dotenv/config';
-import { defineConfig } from 'vite';
-import * as glob from 'glob';
+import "dotenv/config";
+import { defineConfig } from "vite";
+import * as glob from "glob";
 import {
   getMaps,
   getMapsOptimizers,
   getMapsScripts,
   LogLevel,
   OptimizeOptions,
-} from 'wa-map-optimizer-vite';
+} from "wa-map-optimizer-vite";
 
 const maps = getMaps();
 
@@ -22,7 +22,7 @@ let optimizerOptions: OptimizeOptions = {
 
 if (
   process.env.TILESET_OPTIMIZATION &&
-  process.env.TILESET_OPTIMIZATION === 'true'
+  process.env.TILESET_OPTIMIZATION === "true"
 ) {
   const qualityMin = process.env.TILESET_OPTIMIZATION_QUALITY_MIN
     ? parseInt(process.env.TILESET_OPTIMIZATION_QUALITY_MIN)
@@ -41,38 +41,36 @@ if (
 }
 
 function getModalFiles() {
-  return glob.sync('./modals/*.html').reduce((acc, curr) => {
-    return { ...acc, [path.basename(curr, '.html')]: curr };
+  return glob.sync("./modals/*.html").reduce((acc, curr) => {
+    return { ...acc, [path.basename(curr, ".html")]: curr };
   }, {});
 }
 
 export default defineConfig({
-
-  base: './',
+  base: "./",
   build: {
     sourcemap: true,
     rollupOptions: {
       input: {
-        index: './index.html',
+        index: "./index.html",
         note: "./note.html",
-        flopstory : "../templates/flop_story.html",
+        flopstory: "./public/templates/flop_story.html",
         ...getModalFiles(),
         ...getMapsScripts(maps),
       },
       output: {},
-
     },
   },
   plugins: [...getMapsOptimizers(maps, optimizerOptions)],
   server: {
-    host: 'localhost',
+    host: "localhost",
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+      "Cache-Control": "no-cache, no-store, must-revalidate",
     },
-    open: '/',
+    open: "/",
   },
 });
