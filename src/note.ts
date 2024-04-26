@@ -8,10 +8,7 @@ interface Perso {
     name: string;
     description: string;
 }
-interface Perso {
-    name: string;
-    description: string;
-}
+
 let currentIndex = 0; // Index du personnage actuellement affiché
 let displayedCharacters: Perso[] = []; // Tableau pour stocker l'ordre des personnages déjà affichés
 
@@ -27,17 +24,21 @@ let personnage : Perso [] = [
     { name: "James Bond", description : "Un PNJ dans une zone secrète ou d'espionnage."},
     { name :"Charlie Chaplin" , description : "Un PNJ dans une zone de comédie ou de cinéma muet."},
 ];
-// Sélectionner un personnage aléatoire parmi la liste
 function selectRandomCharacter(): Perso {
-    const randomIndex = Math.floor(Math.random() * personnage.length);
-    const selectedCharacter = personnage[randomIndex];
+    let availableCharacters = personnage.filter(character => !displayedCharacters.includes(character));
+    if (availableCharacters.length === 0) {
+        // Tous les personnages ont déjà été affichés, réinitialiser l'ordre
+        displayedCharacters = [];
+        availableCharacters = personnage;
+    }
+    const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+    const selectedCharacter = availableCharacters[randomIndex];
     return selectedCharacter;
 }
 function next() {
     const nextPage = document.getElementById('savedButton');
     if(nextPage) {
         nextPage.addEventListener('click',()=>{
-            console.log("Bouton 'Next' cliqué !");
             // Si tous les personnages ont été affichés, réinitialiser l'ordre
             if (displayedCharacters.length === personnage.length) {
                 displayedCharacters = [];
@@ -69,14 +70,14 @@ function dynamiserH1AvecDescription() {
     }
 }
 function gestionValidate() {
-     const joueurId =  WA.player.playerId;
+     const joueurId =  WA.player.uuid;
      let score = 0;
-     let res = [];
+   
      let scoaring = new Map();
     const savedButton = document.getElementById("savedButton");
-    const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement;
+    const noteTextArea = document.getElementById("noteTextArea") as HTMLTextAreaElement; // Récupérer le texte entré dans la zone de texte
             if (noteTextArea) {
-                const enteredText = noteTextArea.value.trim(); // Récupérer le texte entré dans la zone de texte
+                const enteredText = noteTextArea.value.trim(); 
                 console.log(enteredText);
             }
     if (savedButton) {
@@ -90,14 +91,21 @@ function gestionValidate() {
                     if(characterName.trim().toLocaleLowerCase() === personnage[i].description.trim().toLocaleLowerCase()) {
                         celebritieName = personnage[i].name.trim().toLocaleLowerCase();
                         if (celebritieName === enteredText) {
-                            console.log("Le texte correspond au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim());
-                            res.push(score++) ;
-                            scoaring.set(joueurId,res);
+                            console.log("Le texte correspond au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
+                            score = score + 1 ;
+                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
+                            scoaring.set(joueurId,score);
                             WA.player.state.saveVariable("noteText", scoaring);
+                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
                             next();
-                        } else {
-                            scoaring.set(joueurId,res);
+                        } else {    
+                            console.log("Le texte correspond pas au nom du personnage:","res attendue",celebritieName,"res envoyer ",noteTextArea.value.trim()) ;
+
+                            scoaring.set(joueurId,score);
                             WA.player.state.saveVariable("noteText", scoaring)
+                            console.log("joueur :", WA.player.name," id ",joueurId," votre score est : " , score);
+                            console.log( scoaring.set(joueurId,score));
+                            console.log("score note text ",WA.player.state.loadVariable("noteText"));
                             next();
                         }
                     }
