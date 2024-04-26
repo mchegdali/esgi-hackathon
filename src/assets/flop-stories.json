@@ -1,0 +1,42 @@
+[
+    {
+        "playerId": 1,
+        "story": "Je suis arrivé à une réunion importante avec les investisseurs en retard parce que je me suis trompé de lieu. J'ai confondu le nom des salles de conférence et je me suis retrouvé dans une réunion complètement différente. C'était une présentation sur les politiques internes de la société de nettoyage."
+    },
+    {
+        "playerId": 2,
+        "story": "Lors d'une présentation devant mes collègues, j'ai accidentellement fermé la présentation PowerPoint au lieu de passer à la diapositive suivante. J'ai passé plusieurs minutes à essayer de la rouvrir alors que tout le monde attendait."
+    },
+    {
+        "playerId": 3,
+        "story": "J'ai envoyé un e-mail très critique à mon patron, mais j'ai oublié de changer le destinataire. Il est parti à toute l'entreprise. Heureusement, mon patron a pris ça avec humour, mais ça a été un moment très gênant."
+    },
+    {
+        "playerId": 4,
+        "story": "Lors d'une vidéoconférence avec des clients importants, j'ai renversé une tasse de café sur mon clavier, ce qui a provoqué un dysfonctionnement de mon micro. J'ai dû courir chercher un autre ordinateur en catastrophe."
+    },
+    {
+        "playerId": 5,
+        "story": "J'ai réalisé trop tard que j'avais utilisé des données incorrectes dans un rapport financier crucial pour une réunion du conseil d'administration. La présentation a été un désastre et a compromis la confiance de mes supérieurs envers moi."
+    },
+    {
+        "playerId": 6,
+        "story": "En préparant une démonstration en direct pour un nouveau produit, j'ai découvert que j'avais oublié d'inclure la fonctionnalité principale. J'ai dû improviser pendant la démo, mais cela n'a pas impressionné les clients."
+    },
+    {
+        "playerId": 7,
+        "story": "J'ai accidentellement effacé toute la base de données clients en essayant de résoudre un bug mineur. Nous avons dû reconstruire la base de données à partir de zéro, ce qui a pris des semaines de travail acharné."
+    },
+    {
+        "playerId": 8,
+        "story": "Je me suis endormi lors d'une réunion importante avec un client. Mon patron a dû me réveiller en public. Non seulement j'ai perdu la face, mais j'ai aussi donné l'impression que je ne prenais pas la réunion au sérieux."
+    },
+    {
+        "playerId": 9,
+        "story": "J'ai envoyé un message privé critique à un collègue pendant une visioconférence, mais je l'ai accidentellement envoyé à tout le groupe. Le collègue a malheureusement vu le message avant que je puisse m'excuser."
+    },
+    {
+        "playerId": 10,
+        "story": "J'ai confondu les dates de deux événements importants de l'entreprise et j'ai programmé deux réunions en même temps. J'ai dû courir entre les deux, en arrivant en retard à chacune d'elles, et en laissant une mauvaise impression aux deux groupes."
+    }
+]
