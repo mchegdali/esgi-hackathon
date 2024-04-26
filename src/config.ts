@@ -1,4 +1,5 @@
-const rootLink = 'http://localhost:5173';
+// @ts-ignore
+const rootLink = import.meta.env.BASE_URL;
 const PLAYERS_COUNT_NEEDED = 1;
 
 const eventAreas = [
