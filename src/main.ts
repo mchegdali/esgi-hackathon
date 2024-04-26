@@ -12,10 +12,14 @@ WA.onInit()
     console.log('Scripting API ready');
     const isAdmin = WA.player.tags.includes('admin');
     if (isAdmin) {
-      WA.ui.displayActionMessage({
+      const adminActionMessage = WA.ui.displayActionMessage({
         message: 'Vous êtes administrateur.',
         callback: () => {},
       });
+
+      setTimeout(async () => {
+        await adminActionMessage.remove();
+      }, 5000);
     }
     console.log('Player tags: ', WA.player.tags);
 
