@@ -10,27 +10,41 @@ export default async function manageUsers() {
 
   if (isAdmin) {
     // manage players count
-    WA.players.onVariableChange('inFlopStoriesArea').subscribe(({ value }) => {
-      const currentPlayerCount = WA.player.state.loadVariable(
-        'playerCount:flopStoryZone'
-      ) as number;
+    WA.players
+      .onVariableChange('inFlopStoriesArea')
+      .subscribe(({ value, player }) => {
+        WA.chat.sendChatMessage(
+          `Le joueur ${player.name} est dans la zone 'Flop Stories'`
+        );
+        console.log(
+          `player ${player.name} is inFlopStoriesArea: ${
+            value ? 'true' : 'false'
+          }`
+        );
 
-      const newPlayerCount = !!value
-        ? currentPlayerCount + 1
-        : currentPlayerCount - 1;
+        const currentPlayerCount = WA.player.state.loadVariable(
+          'playerCount:flopStoryZone'
+        ) as number;
 
-      WA.player.state.saveVariable(
-        'playerCount:flopStoryZone',
-        newPlayerCount,
-        {
-          public: false,
-          scope: 'room',
-          persist: false,
-        }
+        const newPlayerCount = !!value
+          ? currentPlayerCount + 1
+          : currentPlayerCount - 1;
+
+        WA.player.state.saveVariable(
+          'playerCount:flopStoryZone',
+          newPlayerCount,
+          {
+            public: false,
+            scope: 'room',
+            persist: false,
+          }
+        );
+      });
+
+    WA.players.onVariableChange('inQuizArea').subscribe(({ value, player }) => {
+      WA.chat.sendChatMessage(
+        `Le joueur ${player.name} est dans la zone 'Quiz'`
       );
-    });
-
-    WA.players.onVariableChange('inQuizArea').subscribe(({ value }) => {
       const currentPlayerCount = WA.player.state.loadVariable(
         'playerCount:quizZone'
       ) as number;
@@ -48,7 +62,10 @@ export default async function manageUsers() {
 
     WA.players
       .onVariableChange('inGuessThePersonArea')
-      .subscribe(({ value }) => {
+      .subscribe(({ value, player }) => {
+        WA.chat.sendChatMessage(
+          `Le joueur ${player.name} est dans la zone 'Devine Qui?'`
+        );
         const currentPlayerCount = WA.player.state.loadVariable(
           'playerCount:guessZone'
         ) as number;
