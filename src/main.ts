@@ -56,11 +56,11 @@ WA.onInit()
    WA.state.onVariableChange('noteText').subscribe((value)=>{
         console.log(value);
    });
-    WA.room.area.onEnter('devineQui').subscribe(async () => {
+    WA.room.area.onEnter('guessZone').subscribe(async () => {
         await openPopup();
     })
 
-    WA.room.area.onLeave('devineQui').subscribe(() => {
+    WA.room.area.onLeave('guessZone').subscribe(() => {
         closePopup();
     })
 

@@ -12,6 +12,9 @@ export class FlopStoryManager {
         this.closeModalFunction = closeModalFunction;
     }
 
+    /**
+     * Permet de ne pas rafficher la modal FLOP STORY s'il a deja été open
+     */
     openFlopStory() {
         // if (this.waAPI.player.state.hasOpenedFlopStory) {
         //     console.log("Le joueur a déjà ouvert flop story.");

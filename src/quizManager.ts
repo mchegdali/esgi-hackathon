@@ -12,11 +12,14 @@ export class QuizManager {
         this.closeModalFunction = closeModalFunction;
     }
 
+    /**
+     * Permet de ne pas rafficher la modal QUIZ s'il a deja été open
+     */
     openQuiz() {
-        if (this.waAPI.player.state.hasOpenedQuiz) {
-            console.log("Le joueur a déjà ouvert le quiz.");
-            return; // Quiz a déjà été ouvert par le joueur = on ne fait rien
-        }
+        // if (this.waAPI.player.state.hasOpenedQuiz) {
+        //     console.log("Le joueur a déjà ouvert le quiz.");
+        //     return; // Quiz a déjà été ouvert par le joueur = on ne fait rien
+        // }
 
         this.isModalOpen = true;
 
