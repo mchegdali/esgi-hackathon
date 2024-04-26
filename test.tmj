@@ -604,13 +604,35 @@
                 {
                  "height":64,
                  "id":21,
-                 "name":"flop-stories",
+                 "name":"flopStoryZone",
                  "rotation":0,
                  "type":"area",
                  "visible":true,
                  "width":128,
-                 "x":224,
-                 "y":384
+                 "x":97.6580852337669,
+                 "y":271.696075763348
+                }, 
+                {
+                 "height":64,
+                 "id":27,
+                 "name":"quizZone",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":128,
+                 "x":231.877646546563,
+                 "y":316.790072388831
+                }, 
+                {
+                 "height":64,
+                 "id":28,
+                 "name":"guessZone",
+                 "rotation":0,
+                 "type":"area",
+                 "visible":true,
+                 "width":128,
+                 "x":94.7372775268057,
+                 "y":384.820334186034
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -666,7 +688,7 @@
          "y":0
         }],
  "nextlayerid":69,
- "nextobjectid":27,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "properties":[
         {

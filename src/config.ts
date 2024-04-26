@@ -3,19 +3,19 @@ const PLAYERS_COUNT_NEEDED = 1;
 
 const eventAreas = [
   {
-    areaName: 'flop-stories-area',
+    areaName: 'flopStoryZone',
     variableName: 'inFlopStoriesArea',
     btnId: 'start-flop-stories-btn',
     eventName: 'Flop Stories',
   },
   {
-    areaName: 'quiz-area',
+    areaName: 'quizZone',
     variableName: 'inQuizArea',
     btnId: 'start-quiz-btn',
     eventName: 'Quiz',
   },
   {
-    areaName: 'guess-the-person-area',
+    areaName: 'guessZone',
     variableName: 'inGuessThePersonArea',
     btnId: 'start-guess-the-person-btn',
     eventName: 'Devine Qui?',
