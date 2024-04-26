@@ -185,3 +185,5 @@ window.onload = function () {
     gestionValidate();
   });
 };
+
+export {};

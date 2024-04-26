@@ -40,3 +40,5 @@ WA.onInit().then(async () => {
   //     }
   //   }
 });
+
+export {};
