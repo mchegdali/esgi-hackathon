@@ -12,22 +12,22 @@ WA.onInit()
     await WA.players.configureTracking({
       players: true,
     });
-    console.log('Scripting API ready');
-    //const isAdmin = WA.player.tags.includes('admin');
-    const isAdmin = WA.player.name === 'La Voix';
-    if (isAdmin) {
-      const adminActionMessage = WA.ui.displayActionMessage({
-        message: 'Vous êtes administrateur.',
-        callback: () => {},
-      });
+    // console.log('Scripting API ready');
+    // //const isAdmin = WA.player.tags.includes('admin');
+    // const isAdmin = WA.player.name === 'La Voix';
+    // if (isAdmin) {
+    //   const adminActionMessage = WA.ui.displayActionMessage({
+    //     message: 'Vous êtes administrateur.',
+    //     callback: () => {},
+    //   });
 
-      setTimeout(async () => {
-        await adminActionMessage.remove();
-      }, 5000);
-    }
-    console.log('Player tags: ', WA.player.tags);
+    //   setTimeout(async () => {
+    //     await adminActionMessage.remove();
+    //   }, 5000);
+    // }
+    // console.log('Player tags: ', WA.player.tags);
 
-    onFirstTimeEnter();
+    // onFirstTimeEnter();
     await manageUsers();
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra()
