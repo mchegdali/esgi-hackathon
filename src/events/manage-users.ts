@@ -2,7 +2,7 @@ import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
 export default async function manageUsers() {
   // manage styles
-  const isAdmin = WA.player.name === 'La Voix';
+  const isAdmin = WA.player.tags.includes('admin');
 
   if (isAdmin) {
     await Promise.all([
