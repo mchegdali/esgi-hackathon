@@ -9,6 +9,9 @@ console.log('Script started successfully');
 // Waiting for the API to be ready
 WA.onInit()
   .then(async () => {
+    await WA.players.configureTracking({
+      players: true,
+    });
     console.log('Scripting API ready');
     //const isAdmin = WA.player.tags.includes('admin');
     const isAdmin = WA.player.name === 'La Voix';

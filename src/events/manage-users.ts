@@ -1,7 +1,6 @@
 import { PLAYERS_COUNT_NEEDED, eventAreas } from '../config';
 
 export default async function manageUsers() {
-  await WA.players.configureTracking();
   // manage styles
   const isAdmin = WA.player.tags.includes('admin');
 
