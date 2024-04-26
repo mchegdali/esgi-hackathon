@@ -16,6 +16,7 @@ export default async function manageUsers() {
         WA.chat.sendChatMessage(
           `Le joueur ${player.name} est dans la zone 'Flop Stories'`
         );
+
         console.log(
           `player ${player.name} is inFlopStoriesArea: ${
             value ? 'true' : 'false'
