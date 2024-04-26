@@ -49,6 +49,7 @@ function getModalFiles() {
 export default defineConfig({
   base: './',
   build: {
+    sourcemap: true,
     rollupOptions: {
       input: {
         index: './index.html',
