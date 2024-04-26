@@ -7,7 +7,7 @@ interface Perso {
   description: string;
 }
 
-let currentIndex = 0; // Index du personnage actuellement affiché
+// let currentIndex = 0; // Index du personnage actuellement affiché
 let displayedCharacters: Perso[] = []; // Tableau pour stocker l'ordre des personnages déjà affichés
 
 // Définir les personnages célèbres pour le jeu
