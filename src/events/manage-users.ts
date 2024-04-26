@@ -5,21 +5,10 @@ export default async function manageUsers() {
   const isAdmin = WA.player.name === 'La Voix';
 
   if (isAdmin) {
-    await WA.player.setOutlineColor(0, 0, 0);
-  }
-
-  if (isAdmin) {
-    WA.players.onVariableChange('test').subscribe(({ value }) => {
-      console.log('test variable changed', value);
-    });
-  } else {
-    WA.room.area.onEnter('flopStoryZone').subscribe(() => {
-      WA.player.state.saveVariable('test', Math.random(), {
-        public: true,
-        scope: 'room',
-        persist: false,
-      });
-    });
+    await Promise.all([
+      WA.player.setOutlineColor(0, 0, 0),
+      WA.players.configureTracking(),
+    ]);
   }
 
   for (const { areaName, variableName, btnId, eventName } of eventAreas) {
