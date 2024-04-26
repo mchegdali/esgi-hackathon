@@ -63,12 +63,13 @@
                     Ayant sous-estimé une randonnée "facile", je suis parti en sandales et sans eau suffisante. Résultat ? Des pieds en piteux état et une déshydratation qui m'ont valu une fin de parcours en voiturette de golf, appelée en urgence par un groupe de randonneurs compatissants.
                 </label>
         
-                <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Quelle est l'histoire la plus floppesque ?</button>
+                <button type="submit" id="submitFlopStory" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Quelle est l'histoire la plus floppesque ?</button>
             </form>
         </div>
         
         <script>
-            document.getElementById('flopForm').addEventListener('submit', function(event) {
+            const vote= document.getElementById('submitFlopStory');
+            vote.addEventListener('submit', function(event) {
                 event.preventDefault();
                 const selectedFlop = document.querySelector('input[name="flop"]:checked').value;
                 alert('Vous avez voté pour : ' + selectedFlop);
@@ -79,6 +80,7 @@
         
     </div>
     <script>
+        import { bootstrapExtra } from "@workadventure/scripting-api-extra";
         function nextQuestion(current) {
         var currentQuestion = document.getElementById('question' + current);
         var nextQuestion = document.getElementById('question' + (current + 1));
@@ -97,7 +99,7 @@
             alert('Vous avez voté pour : ' + selectedFlop);
         });
     }
-
+    func
     </script>
 </body>
 </html>
