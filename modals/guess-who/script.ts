@@ -1,4 +1,5 @@
 import { UIWebsite } from "@workadventure/iframe-api-typings";
+import { rootLink } from "../../src/config";
 
 console.log("Script started successfully hehe");
 interface Perso {
@@ -6,7 +7,6 @@ interface Perso {
   description: string;
 }
 
-let myWebsite: UIWebsite | undefined;
 // Définir les personnages célèbres pour le jeu
 let personnage: Perso[] = [
   {
@@ -73,41 +73,29 @@ export async function addDescription() {
 
   console.log(joueur);
 }
-// Définir la fonction pour ouvrir le popup
-export async function openPopup() {
+
+export async function openModal() {
   const randomCharacter = selectRandomCharacter();
   const tabjoueur = [
     WA.player.playerId,
     randomCharacter.description,
     randomCharacter.name,
   ];
-  WA.player.state.saveVariable("devine", tabjoueur, {
+  await WA.player.state.saveVariable("devine", tabjoueur, {
     public: true,
     persist: true,
   });
-  console.log(WA.player.state.hasVariable("devine"));
-  // const joueur = await WA.player.state.hasVariable("noteText");
-  //  WA.state.noteText= tabjoueur;
+
   //  console.log(tabjoueur)
-  myWebsite = await WA.ui.website.open({
-    url: "./note.html",
-    position: {
-      vertical: "middle",
-      horizontal: "middle",
-    },
-    size: {
-      height: "50vh",
-      width: "50vw",
-    },
+  WA.ui.modal.openModal({
+    src: `${rootLink}/modals/guess-who/index.html`,
+    title: "Devine Qui",
+    position: "center",
     allowApi: true,
+    allow: null,
   });
 }
 
-// Définir la fonction pour fermer le popup
-export function closePopup() {
-  console.log(myWebsite);
-  if (myWebsite !== undefined) {
-    myWebsite.close();
-    myWebsite = undefined;
-  }
+export function closeModal() {
+  WA.ui.modal.closeModal();
 }

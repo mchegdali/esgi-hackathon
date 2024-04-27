@@ -1,6 +1,6 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
-import { openPopup, closePopup } from "./jeux";
+import { openModal, closeModal } from "../modals/guess-who/script";
 import onFirstTimeEnter from "./events/on-first-time-enter";
 import manageUsers from "./events/manage-users";
 import { QuizManager } from "./quizManager";
@@ -10,7 +10,7 @@ console.log("Script started successfully");
 
 let currentModal: any = undefined;
 
-let quizManager = new QuizManager(WA, showEventModal, closeEventModal);
+let quizManager = new QuizManager(WA);
 let flopStoryManager = new FlopStoryManager(
   WA,
   showEventModal,
@@ -76,11 +76,11 @@ WA.onInit()
       console.log(value);
     });
     WA.room.area.onEnter("guessZone").subscribe(async () => {
-      await openPopup();
+      await openModal();
     });
 
     WA.room.area.onLeave("guessZone").subscribe(() => {
-      closePopup();
+      closeModal();
     });
 
     // Déclencheur pour le quiz
