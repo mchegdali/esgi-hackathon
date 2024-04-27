@@ -1,10 +1,11 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 import { bootstrapExtra } from "@workadventure/scripting-api-extra";
-import { openModal, closeModal } from "../modals/guess-who/script";
 import onFirstTimeEnter from "./events/on-first-time-enter";
 import manageUsers from "./events/manage-users";
 import { QuizManager } from "./quizManager";
 import { FlopStoryManager } from "./flopStoryManager";
+import { rootLink } from "./config";
+import restoreAllControls from "./utils/restore-all-controls";
 
 console.log("Script started successfully");
 
@@ -51,6 +52,12 @@ const audioFiles = [
 // Waiting for the API to be ready
 WA.onInit()
   .then(async () => {
+    await WA.players.configureTracking({
+      players: true,
+    });
+
+    onFirstTimeEnter();
+
     const isAdmin = WA.player.tags.includes("admin");
 
     if (isAdmin) {
@@ -64,29 +71,12 @@ WA.onInit()
       }, 5000);
     }
 
-    await WA.players.configureTracking({
-      players: true,
-    });
-
-    console.log("Scripting API ready");
-
-    console.log("Player tags: ", WA.player.tags);
-
-    WA.state.onVariableChange("noteText").subscribe((value) => {
-      console.log(value);
-    });
-    WA.room.area.onEnter("guessZone").subscribe(async () => {
-      await openModal();
-    });
-
-    WA.room.area.onLeave("guessZone").subscribe(() => {
-      closeModal();
-    });
-
+    //#region Quiz
     // Déclencheur pour le quiz
-    WA.room.area.onEnter("quizZone").subscribe(() => {
-      console.log("je rentre zone quiz");
-      quizManager.openQuiz();
+    WA.room.area.onEnter("quizZone").subscribe(async () => {
+      if (!WA.player.state.hasVariable("quizScore")) {
+        quizManager.openQuiz();
+      }
     });
 
     // Déclencheur pour fermer le quiz
@@ -95,9 +85,71 @@ WA.onInit()
       quizManager.closeQuiz();
     });
 
+    WA.player.state.onVariableChange("quizScore").subscribe((newValue) => {
+      const totalQuestions = JSON.parse(
+        WA.state.loadVariable("quizQuestions") as string
+      ) as unknown[];
+      const actionMessage = WA.ui.displayActionMessage({
+        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
+        callback: () => {},
+      });
+
+      setTimeout(async () => {
+        await actionMessage.remove();
+      }, 5000);
+    });
+    //#endregion
+
+    //#region Guess Who
+    WA.room.area.onEnter("guessZone").subscribe(async () => {
+      if (
+        WA.player.state.hasVariable("quizScore") &&
+        !WA.player.state.hasVariable("guessWhoScore")
+      ) {
+        WA.ui.modal.openModal(
+          {
+            title: "Devine qui ?",
+            src: `${rootLink}/modals/guess-who/index.html`,
+            allow: null,
+            allowApi: true,
+            position: "center",
+          },
+          () => {
+            restoreAllControls();
+          }
+        );
+      }
+    });
+
+    WA.room.area.onLeave("guessZone").subscribe(() => {
+      WA.ui.modal.closeModal();
+    });
+
+    WA.player.state.onVariableChange("guessWhoScore").subscribe((newValue) => {
+      const totalCharacters = JSON.parse(
+        WA.state.loadVariable("guessWhoQuestions") as string
+      ) as unknown[];
+      const actionMessage = WA.ui.displayActionMessage({
+        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalCharacters.length} possibles.`,
+        callback: () => {},
+      });
+
+      setTimeout(async () => {
+        await actionMessage.remove();
+      }, 5000);
+    });
+    //#endregion
+
+    //#region Flop Story
     // Déclencheur pour flop story
     WA.room.area.onEnter("flopStoryZone").subscribe(() => {
-      flopStoryManager.openFlopStory();
+      if (
+        WA.player.state.hasVariable("quizScore") &&
+        WA.player.state.hasVariable("guessWhoScore") &&
+        !WA.player.state.hasVariable("flopStoryScore")
+      ) {
+        flopStoryManager.openFlopStory();
+      }
     });
 
     // Déclencheur pour fermer flop story
@@ -106,12 +158,26 @@ WA.onInit()
       flopStoryManager.closeFlopStory();
     });
 
+    WA.player.state.onVariableChange("flopStoryScore").subscribe((newValue) => {
+      const totalQuestions = JSON.parse(
+        WA.state.loadVariable("flopStoriesQuestions") as string
+      ) as unknown[];
+      const actionMessage = WA.ui.displayActionMessage({
+        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
+        callback: () => {},
+      });
+
+      setTimeout(async () => {
+        await actionMessage.remove();
+      }, 5000);
+    });
+    //#endregion
+
     //Afficher/Masquer les portes pour voir les tunnels
     setupDoorTriggers("right_door_zone", "doors/door_right");
     setupDoorTriggers("center_door_zone", "doors/door_center");
     setupDoorTriggers("left_door_zone", "doors/door_left");
 
-    onFirstTimeEnter();
     await manageUsers();
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra()

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://play.workadventu.re/iframe_api.js"></script>
-    <script src="script.ts" type="module"></script>
     <link rel="stylesheet" href="../../src/assets/index.css" />
   </head>
 
@@ -13,8 +12,7 @@
     <div class="w-full max-w-xl p-8 space-y-2">
       <header class="w-full flex justify-center">
         <h1
-          class="cursor-default select-none text-6xl inline-block bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 text-white rounded font-aachen tracking-wider"
-          style="-webkit-text-stroke: 1px white"
+          class="flop-heading cursor-default select-none text-6xl inline-block"
         >
           QUIZ TIME
         </h1>
@@ -65,7 +63,7 @@
           </div>
           <button
             type="button"
-            onclick="nextQuestion(1)"
+            data-question="1"
             class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Question suivante
@@ -118,7 +116,7 @@
           </div>
           <button
             type="button"
-            onclick="nextQuestion(2)"
+            data-question="2"
             class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Question suivante
@@ -170,7 +168,7 @@
           </div>
           <button
             type="button"
-            onclick="nextQuestion(3)"
+            data-question="3"
             class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Question suivante
@@ -223,7 +221,7 @@
           </div>
           <button
             type="button"
-            onclick="nextQuestion(4)"
+            data-question="4"
             class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Question suivante
@@ -275,8 +273,7 @@
             <label for="q5r3" class="ml-2">Avatar</label>
           </div>
           <button
-            type="button"
-            onclick="submitQuiz()"
+            type="submit"
             class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Soumettre
@@ -284,43 +281,6 @@
         </div>
       </form>
     </div>
-    <script>
-      function nextQuestion(current) {
-        var currentQuestion = document.getElementById("question" + current);
-        var nextQuestion = document.getElementById("question" + (current + 1));
-        if (nextQuestion) {
-          currentQuestion.classList.add("hidden");
-          nextQuestion.classList.remove("hidden");
-        } else {
-          submitQuiz(); // Soumission du quiz pour la dernière question
-        }
-      }
-
-      function submitQuiz() {
-        var form = document.getElementById("quizForm");
-        var score = 0;
-
-        // Tableau des réponses
-        var answers = [
-          { name: "q1", value: "serpent" },
-          { name: "q2", value: "1000000" },
-          { name: "q3", value: "fruits" },
-          { name: "q4", value: "cligner" },
-          { name: "q5", value: "pirates" },
-        ];
-
-        answers.forEach(function (answer) {
-          var selected = form.querySelector(
-            `input[name="${answer.name}"]:checked`
-          );
-          if (selected && selected.value === answer.value) {
-            score += 1;
-          }
-        });
-
-        // Affichage du score
-        alert("Votre score total est de " + score + " sur " + answers.length);
-      }
-    </script>
+    <script src="script.ts" type="module"></script>
   </body>
 </html>

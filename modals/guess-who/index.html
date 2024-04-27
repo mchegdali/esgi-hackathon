@@ -9,26 +9,35 @@
     <link rel="stylesheet" href="../../src/assets/index.css" />
   </head>
 
-  <body class="h-screen flex items-center justify-center text-white">
-    <div class="w-full max-w-xl p-8">
-      <div id="editSection">
-        <div>
-          <h1 id="description" class="text-lg font-medium text-center"></h1>
-          <textarea
-            id="noteTextArea"
-            required
-            placeholder="format de réponse William Shakespeare"
-          ></textarea>
-        </div>
-        <div>
-          <button
-            id="savedButton"
-            class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Enregistrer votre réponse
-          </button>
-        </div>
-      </div>
+  <body class="h-screen flex flex-col items-center justify-center text-white">
+    <header>
+      <h1
+        class="uppercase flop-heading cursor-default select-none text-6xl inline-block"
+      >
+        Guess Who
+      </h1>
+    </header>
+    <main class="w-full max-w-xl p-8">
+      <form action="" id="guessForm">
+        <label
+          for="noteTextArea"
+          id="description"
+          class="text-lg font-medium text-center"
+        ></label>
+        <textarea
+          name="answer"
+          class="w-full border border-white bg-transparent text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          required
+          placeholder="William Shakespeare"
+        ></textarea>
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Enregistrer votre réponse
+        </button>
+      </form>
+
       <pre id="displayText"></pre>
       <div id="scoreDisplay" class="hidden">
         <h2 class="text-lg font-medium text-center">
@@ -36,6 +45,6 @@
           <span id="score">0</span>
         </h2>
       </div>
-    </div>
+    </main>
   </body>
 </html>

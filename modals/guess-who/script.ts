@@ -1,101 +1,111 @@
-import { UIWebsite } from "@workadventure/iframe-api-typings";
-import { rootLink } from "../../src/config";
+/// <reference types="@workadventure/iframe-api-typings" />
+import Fuse from "fuse.js";
 
-console.log("Script started successfully hehe");
-interface Perso {
+export interface Character {
   name: string;
   description: string;
 }
 
-// Définir les personnages célèbres pour le jeu
-let personnage: Perso[] = [
-  {
-    name: "Albert Einstein",
-    description:
-      "JE SUIS Physicien théoricien connu pour sa théorie de la relativité.",
-  },
-  {
-    name: "Marie Curie",
-    description:
-      "Physicienne et chimiste pionnière dans l'étude de la radioactivité.",
-  },
-  {
-    name: "William Shakespeare",
-    description: " Un PNJ dans une bibliothèque ou un théâtre.",
-  },
-  {
-    name: "Napoléon Bonaparte",
-    description: " Un PNJ dans une zone historique ou militaire.",
-  },
-  {
-    name: "Cleopatra",
-    description: "Un PNJ dans une zone égyptienne ou historique.",
-  },
-  {
-    name: "Steve Jobs",
-    description: "Un PNJ dans une zone technologique ou informatique.",
-  },
-  {
-    name: "Marilyn Monroe",
-    description: "Un PNJ dans une zone de divertissement ou de cinéma.",
-  },
-  {
-    name: "James Bond",
-    description: "Un PNJ dans une zone secrète ou d'espionnage.",
-  },
-  {
-    name: "Charlie Chaplin",
-    description: "Un PNJ dans une zone de comédie ou de cinéma muet.",
-  },
-];
-// Sélectionner un personnage aléatoire parmi la liste
-function selectRandomCharacter(): Perso {
-  const randomIndex = Math.floor(Math.random() * personnage.length);
-  const selectedCharacter = personnage[randomIndex];
+const allCharacters: Character[] = [];
 
-  personnage = personnage.filter((_, index) => index !== randomIndex);
-  return selectedCharacter;
+let characters: Character[];
+
+const fuse = new Fuse(allCharacters, {
+  keys: ["name"],
+  threshold: 0.2,
+  includeScore: true,
+});
+
+let currentCharacter: Character | null = null;
+let currentScore = 0;
+
+function selectRandomCharacter() {
+  if (characters.length > 0) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    currentCharacter = characters.splice(randomIndex, 1)[0];
+
+    console.log(characters);
+
+    updateTitle(currentCharacter);
+  }
 }
-export async function addDescription() {
-  const randomCharacter = selectRandomCharacter();
-  const tabjoueur = [
-    WA.player.playerId,
-    randomCharacter.description,
-    randomCharacter.name,
-  ];
-  WA.player.state.saveVariable("devine", tabjoueur, {
-    public: true,
-    persist: true,
+
+async function next() {
+  if (characters.length > 0) {
+    selectRandomCharacter();
+  } else {
+    await WA.player.state.saveVariable("guessWhoScore", currentScore, {
+      public: true,
+      persist: true,
+    });
+
+    WA.ui.modal.closeModal();
+  }
+}
+
+function updateTitle(character: Character) {
+  if (descriptionLabelElement) {
+    descriptionLabelElement.textContent = character.description;
+  }
+}
+
+const descriptionLabelElement = document.getElementById(
+  "description"
+) as HTMLLabelElement;
+
+const formElement = document.getElementById("guessForm") as HTMLFormElement;
+
+formElement.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  const selectedCharacter = currentCharacter!;
+  const fd = new FormData(this);
+  const enteredText =
+    fd.get("answer")?.toString().trim().toLocaleLowerCase() ?? "";
+
+  const celebrityName = selectedCharacter.name.trim().toLocaleLowerCase();
+
+  console.log(celebrityName, enteredText);
+
+  const fuseResult = fuse.search(enteredText);
+  const bestMatch = fuseResult[0];
+
+  if (
+    fuseResult.length > 0 &&
+    typeof bestMatch.score === "number" &&
+    bestMatch.score < 0.2 &&
+    celebrityName === bestMatch.item.name.trim().toLocaleLowerCase()
+  ) {
+    currentScore++;
+    console.log("Correct answer!");
+  }
+  await next();
+  this.reset();
+});
+
+function loadCharacters() {
+  const charactersVar = JSON.parse(
+    WA.state.loadVariable("guessWhoQuestions") as string
+  ) as Character[];
+
+  console.log("Loaded characters: ", charactersVar);
+
+  const charactersCount = charactersVar.length;
+
+  for (let i = 0; i < charactersCount; i++) {
+    allCharacters.push(charactersVar[i]);
+  }
+
+  characters = allCharacters.slice();
+}
+
+// Appeler la fonction pour dynamiser le contenu du h1 lors du chargement de la page
+window.onload = function () {
+  WA.onInit().then(() => {
+    loadCharacters();
+    selectRandomCharacter();
+
+    console.log("Current character: ", currentCharacter);
   });
-  console.log(WA.player.state.hasVariable("devine"));
-  const joueur = WA.player.state.hasVariable("noteText");
-  console.log(WA.state.saveVariable("noteText", tabjoueur));
+};
 
-  console.log(joueur);
-}
-
-export async function openModal() {
-  const randomCharacter = selectRandomCharacter();
-  const tabjoueur = [
-    WA.player.playerId,
-    randomCharacter.description,
-    randomCharacter.name,
-  ];
-  await WA.player.state.saveVariable("devine", tabjoueur, {
-    public: true,
-    persist: true,
-  });
-
-  //  console.log(tabjoueur)
-  WA.ui.modal.openModal({
-    src: `${rootLink}/modals/guess-who/index.html`,
-    title: "Devine Qui",
-    position: "center",
-    allowApi: true,
-    allow: null,
-  });
-}
-
-export function closeModal() {
-  WA.ui.modal.closeModal();
-}
+export {};

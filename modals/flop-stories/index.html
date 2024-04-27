@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flop Story | Flop Stories</title>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+    <script src="script.ts" type="module"></script>
+    <link rel="stylesheet" href="../../src/assets/index.css" />
+  </head>
+
+  <body class="h-screen flex flex-col items-center justify-center text-white">
+    <header>
+      <h1
+        class="uppercase flop-heading cursor-default select-none text-6xl inline-block"
+      >
+        Flop Stories
+      </h1>
+    </header>
+    <main class="w-full max-w-xl p-8 space-y-2">
+      <!-- Histoire 1 -->
+      <div id="question1" class="question space-y-2">
+        <p class="text-lg font-medium text-center">
+          Convaincu par un ami de tenter une nouvelle coiffure "tendance", je me
+          suis rendu chez un coiffeur inexpérimenté. Résultat ? Une coupe
+          asymétrique totalement ratée juste avant une photo de famille
+          importante. J'ai dû porter un chapeau pendant des semaines pour cacher
+          le désastre.
+        </p>
+
+        <button
+          type="button"
+          data-question="1"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Histoire suivante
+        </button>
+      </div>
+
+      <!-- Histoire 2 -->
+      <div id="question2" class="question hidden mt-2">
+        <p class="text-lg font-medium text-center">
+          Motivé pour impressionner lors d'un dîner, j'ai tenté de faire un
+          gâteau sophistiqué. Malheureusement, distrait par un appel, j'ai
+          oublié le gâteau au four. L'alarme incendie a sonné juste au moment où
+          mes invités arrivaient, accueillis par une fumée noire et une odeur de
+          brûlé.
+        </p>
+
+        <button
+          type="button"
+          data-question="2"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Histoire suivante
+        </button>
+      </div>
+
+      <!-- Histoire 3 -->
+      <div id="question3" class="question hidden mt-2">
+        <p class="text-lg font-medium text-center">
+          Pour mon premier rendez-vous avec quelqu'un que j'avais rencontré en
+          ligne, j'ai confondu le jour. J'ai donc soigneusement préparé et
+          attendu dans un café... un jour trop tôt. En réalisant mon erreur,
+          j'étais trop gêné pour lui avouer et j'ai prétendu avoir eu un
+          empêchement le jour suivant.
+        </p>
+
+        <button
+          type="button"
+          data-question="3"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Histoire suivante
+        </button>
+      </div>
+
+      <!-- Histoire 4 -->
+      <div id="question4" class="question hidden mt-2">
+        <p class="text-lg font-medium text-center">
+          Ayant sous-estimé une randonnée "facile", je suis parti en sandales et
+          sans eau suffisante. Résultat ? Des pieds en piteux état et une
+          déshydratation qui m'ont valu une fin de parcours en voiturette de
+          golf, appelée en urgence par un groupe de randonneurs compatissants.
+        </p>
+
+        <button
+          type="button"
+          data-question="4"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Histoire suivante
+        </button>
+      </div>
+
+      <!-- Vote 5 -->
+      <div id="question5" class="question hidden mt-2">
+        <form id="flopForm" class="flex flex-col gap-2">
+          <!-- Premiere histoire -->
+          <div
+            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+          >
+            <label class="block font-medium text-center w-full h-full">
+              <input
+                type="radio"
+                name="flop"
+                value="coiffeur"
+                class="mr-2 hidden"
+              />
+              Convaincu par un ami de tenter une nouvelle coiffure "tendance",
+              je me suis rendu chez un coiffeur inexpérimenté. Résultat ? Une
+              coupe asymétrique totalement ratée juste avant une photo de
+              famille importante. J'ai dû porter un chapeau pendant des semaines
+              pour cacher le désastre.
+            </label>
+          </div>
+
+          <div
+            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+          >
+            <label class="block font-medium text-center w-full h-full">
+              <input
+                type="radio"
+                name="flop"
+                value="coiffeur"
+                class="mr-2 hidden"
+              />
+              Motivé pour impressionner lors d'un dîner, j'ai tenté de faire un
+              gâteau sophistiqué. Malheureusement, distrait par un appel, j'ai
+              oublié le gâteau au four. L'alarme incendie a sonné juste au
+              moment où mes invités arrivaient, accueillis par une fumée noire
+              et une odeur de brûlé.
+            </label>
+          </div>
+
+          <div
+            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+          >
+            <label class="block font-medium text-center w-full h-full">
+              <input
+                type="radio"
+                name="flop"
+                value="coiffeur"
+                class="mr-2 hidden"
+              />
+              Pour mon premier rendez-vous avec quelqu'un que j'avais rencontré
+              en ligne, j'ai confondu le jour. J'ai donc soigneusement préparé
+              et attendu dans un café... un jour trop tôt. En réalisant mon
+              erreur, j'étais trop gêné pour lui avouer et j'ai prétendu avoir
+              eu un empêchement le jour suivant.
+            </label>
+          </div>
+
+          <div
+            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+          >
+            <label class="block font-medium text-center w-full h-full">
+              <input
+                type="radio"
+                name="flop"
+                value="coiffeur"
+                class="mr-2 hidden"
+              />
+              Ayant sous-estimé une randonnée "facile", je suis parti en
+              sandales et sans eau suffisante. Résultat ? Des pieds en piteux
+              état et une déshydratation qui m'ont valu une fin de parcours en
+              voiturette de golf, appelée en urgence par un groupe de
+              randonneurs compatissants.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Quelle est selon vous l'histoire la plus floppesque ?
+          </button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

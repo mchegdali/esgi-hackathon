@@ -64,6 +64,116 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
+         "id":35,
+         "name":"variables",
+         "objects":[
+                {
+                 "height":0,
+                 "id":29,
+                 "name":"guessWhoQuestions",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"[{\"name\":\"Albert Einstein\",\"description\":\"je suis Physicien th\u00e9oricien connu pour sa th\u00e9orie de la relativit\u00e9.\"},{\"name\":\"Marie Curie\",\"description\":\"je suis Physicienne et chimiste pionni\u00e8re dans l'\u00e9tude de la radioactivit\u00e9.\"},{\"name\":\"William Shakespeare\",\"description\":\" je suis auteur comedian d'origine annglais \u00eatre ou ne pas \u00eatre \"},{\"name\":\"Napol\u00e9on Bonaparte\",\"description\":\" je suis un soldat fran\u00e7ais qui deviens empereur de france je suis connu pour mon genie tactique et surtout ma defaite qui suis je ?\"},{\"name\":\"Cleopatra\",\"description\":\"je suis une celebrit\u00e9 egyptienne connu pour ma grande beaute qui fais tomb\u00e9 des empires. qui suis je\"},{\"name\":\"Steve Jobs\",\"description\":\"je suis un revolutionnaire en terme de marketing mon produit se vend comme du pain connu pour dans la pomme je croque qui suis je ?\"},{\"name\":\"Marilyn Monroe\",\"description\":\"je suis une actrice mannequin chanteuse et une actrice l'un de mes plus grands succ\u00e8s Les hommes pr\u00e9f\u00e8rent les blondes (1953), qui suis je ?\"},{\"name\":\"James Bond\",\"description\":\"je suis un personnage fictif je suis un agent secret britannique travaillant pour le MI6 qui suis je\"},{\"name\":\"Charlie Chaplin\",\"description\":\"je suis c\u00e9l\u00e8bre pour mes films de comedie muet. qui suis je ?\"}]"
+                        }, 
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"readableBy",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"writableBy",
+                         "type":"string",
+                         "value":"admin"
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":1175.33333333333,
+                 "y":128.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":31,
+                 "name":"flopStoriesQuestions",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"[{\"playerId\":1,\"story\":\"Je suis arriv\u00e9 \u00e0 une r\u00e9union importante avec les investisseurs en retard parce que je me suis tromp\u00e9 de lieu. J'ai confondu le nom des salles de conf\u00e9rence et je me suis retrouv\u00e9 dans une r\u00e9union compl\u00e8tement diff\u00e9rente. C'\u00e9tait une pr\u00e9sentation sur les politiques internes de la soci\u00e9t\u00e9 de nettoyage.\"},{\"playerId\":2,\"story\":\"Lors d'une pr\u00e9sentation devant mes coll\u00e8gues, j'ai accidentellement ferm\u00e9 la pr\u00e9sentation PowerPoint au lieu de passer \u00e0 la diapositive suivante. J'ai pass\u00e9 plusieurs minutes \u00e0 essayer de la rouvrir alors que tout le monde attendait.\"},{\"playerId\":3,\"story\":\"J'ai envoy\u00e9 un e-mail tr\u00e8s critique \u00e0 mon patron, mais j'ai oubli\u00e9 de changer le destinataire. Il est parti \u00e0 toute l'entreprise. Heureusement, mon patron a pris \u00e7a avec humour, mais \u00e7a a \u00e9t\u00e9 un moment tr\u00e8s g\u00eanant.\"},{\"playerId\":4,\"story\":\"Lors d'une vid\u00e9oconf\u00e9rence avec des clients importants, j'ai renvers\u00e9 une tasse de caf\u00e9 sur mon clavier, ce qui a provoqu\u00e9 un dysfonctionnement de mon micro. J'ai d\u00fb courir chercher un autre ordinateur en catastrophe.\"},{\"playerId\":5,\"story\":\"J'ai r\u00e9alis\u00e9 trop tard que j'avais utilis\u00e9 des donn\u00e9es incorrectes dans un rapport financier crucial pour une r\u00e9union du conseil d'administration. La pr\u00e9sentation a \u00e9t\u00e9 un d\u00e9sastre et a compromis la confiance de mes sup\u00e9rieurs envers moi.\"},{\"playerId\":6,\"story\":\"En pr\u00e9parant une d\u00e9monstration en direct pour un nouveau produit, j'ai d\u00e9couvert que j'avais oubli\u00e9 d'inclure la fonctionnalit\u00e9 principale. J'ai d\u00fb improviser pendant la d\u00e9mo, mais cela n'a pas impressionn\u00e9 les clients.\"},{\"playerId\":7,\"story\":\"J'ai accidentellement effac\u00e9 toute la base de donn\u00e9es clients en essayant de r\u00e9soudre un bug mineur. Nous avons d\u00fb reconstruire la base de donn\u00e9es \u00e0 partir de z\u00e9ro, ce qui a pris des semaines de travail acharn\u00e9.\"},{\"playerId\":8,\"story\":\"Je me suis endormi lors d'une r\u00e9union importante avec un client. Mon patron a d\u00fb me r\u00e9veiller en public. Non seulement j'ai perdu la face, mais j'ai aussi donn\u00e9 l'impression que je ne prenais pas la r\u00e9union au s\u00e9rieux.\"},{\"playerId\":9,\"story\":\"J'ai envoy\u00e9 un message priv\u00e9 critique \u00e0 un coll\u00e8gue pendant une visioconf\u00e9rence, mais je l'ai accidentellement envoy\u00e9 \u00e0 tout le groupe. Le coll\u00e8gue a malheureusement vu le message avant que je puisse m'excuser.\"},{\"playerId\":10,\"story\":\"J'ai confondu les dates de deux \u00e9v\u00e9nements importants de l'entreprise et j'ai programm\u00e9 deux r\u00e9unions en m\u00eame temps. J'ai d\u00fb courir entre les deux, en arrivant en retard \u00e0 chacune d'elles, et en laissant une mauvaise impression aux deux groupes.\"}]"
+                        }, 
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"readableBy",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"writableBy",
+                         "type":"string",
+                         "value":"admin"
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":1938.66666666667,
+                 "y":158
+                }, 
+                {
+                 "height":0,
+                 "id":33,
+                 "name":"quizAnswers",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"default",
+                         "type":"string",
+                         "value":"[{\"name\":\"q1\",\"value\":\"serpent\"},{\"name\":\"q2\",\"value\":\"1000000\"},{\"name\":\"q3\",\"value\":\"fruits\"},{\"name\":\"q4\",\"value\":\"cligner\"},{\"name\":\"q5\",\"value\":\"pirates\"}]"
+                        }, 
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"readableBy",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"writableBy",
+                         "type":"string",
+                         "value":"admin"
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":369.69696969697,
+                 "y":136.363636363636
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1421,8 +1531,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":35,
- "nextobjectid":29,
+ "nextlayerid":36,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "properties":[
         {
