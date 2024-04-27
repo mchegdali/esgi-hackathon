@@ -153,6 +153,11 @@ WA.onInit()
         //// Ferme le modal de flop story
         flopStoryManager.closeFlopStory();
       });
+    }else{
+      //affichage des scores si admin et rentre dans la zone de flop story
+      WA.room.area.onEnter("flopStoryZone").subscribe(() => {
+        displayScores();
+      });
     }
     //#endregion
 
@@ -323,6 +328,35 @@ function setupDoorTriggers(zoneName: string, layerName: string) {
   WA.room.area.onLeave(zoneName).subscribe(() => {
     WA.room.showLayer(layerName);
   });
+}
+
+// Fonction pour formater et afficher les scores dans la modal
+function displayScores() {
+  // On récupère les scores sauvegardés
+  const scores = WA.player.state.loadVariable("scores") as Record<string, { quiz: number; guessWho: number; flopStory: number }>;
+
+  // calcul du score global et création du tableau de joueurs avec scores
+  const playersWithTotalScores = Object.keys(scores).map(playerId => {
+    const playerScores = scores[playerId];
+    const totalScore = playerScores.quiz + playerScores.guessWho + playerScores.flopStory; // Somme des scores des différents jeux
+    return { playerId, totalScore, ...playerScores };
+  });
+
+  // On tri les joueurs par score total décroissant
+  playersWithTotalScores.sort((a, b) => b.totalScore - a.totalScore);
+
+  // Affichage modal via la fonction qui le fait
+  showEventModal("modal/scoreindex.html", "right")
+
+  // on attend un peu que l'iframe soit prête, puis on envoie les données
+  setTimeout(() => {
+    const iframe = document.querySelector('iframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'updateScores', scores: playersWithTotalScores  }, '*');
+    } else {
+      console.error("Impossible de trouver l'iframe.");
+    }
+  }, 500); // Délai pour être sûr que l'iframe a le temps de charger
 }
 
 export {};
