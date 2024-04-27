@@ -54,11 +54,9 @@ export default defineConfig({
       input: {
         index: "./index.html",
         note: "./note.html",
-        flopstory: "./public/templates/flop_story.html",
         ...getModalFiles(),
         ...getMapsScripts(maps),
       },
-      output: {},
     },
   },
   plugins: [...getMapsOptimizers(maps, optimizerOptions)],
