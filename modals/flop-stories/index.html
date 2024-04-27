@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flop Story | Flop Stories</title>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+    <script src="script.ts" type="module"></script>
+    <link rel="stylesheet" href="../../src/assets/index.css" />
+  </head>
+
+  <body
+    class="min-h-screen w-full flex flex-col items-center justify-center text-white"
+  >
+    <header>
+      <h1
+        class="uppercase flop-heading cursor-default select-none text-6xl inline-block"
+      >
+        Flop Stories
+      </h1>
+    </header>
+    <main class="w-full max-w-screen-xl space-y-2 flex justify-center px-2">
+      <div
+        id="flop-story"
+        data-story="0"
+        data-end="false"
+        class="max-w-2xl peer group space-y-2"
+      >
+        <p class="text-lg font-medium text-center">
+          Convaincu par un ami de tenter une nouvelle coiffure "tendance", je me
+          suis rendu chez un coiffeur inexpérimenté. Résultat ? Une coupe
+          asymétrique totalement ratée juste avant une photo de famille
+          importante. J'ai dû porter un chapeau pendant des semaines pour cacher
+          le désastre.
+        </p>
+
+        <div class="flex gap-4">
+          <button
+            type="button"
+            id="previous-story"
+            class="group-data-[story=0]:hidden w-full bg-gradient-to-r to-blue-400/15 via-purple-600/15 from-orange-300/15 hover:to-blue-500/25 hover:via-purple-700/25 hover:from-orange-400/25 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Histoire précédente
+          </button>
+          <button
+            type="button"
+            id="next-story"
+            class="w-full bg-gradient-to-r text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline from-blue-500/50 via-purple-700/50 to-orange-400/50 hover:from-blue-600/80 hover:via-purple-800/80 hover:to-orange-500/80 group-data-[end=true]:from-blue-500 group-data-[end=true]:via-purple-700 group-data-[end=true]:to-orange-400 group-data-[end=true]:hover:from-blue-600 group-data-[end=true]:hover:via-purple-800 group-data-[end=true]:hover:to-orange-500"
+          >
+            Histoire suivante
+          </button>
+        </div>
+      </div>
+
+      <!-- Vote 5 -->
+      <form id="flopForm" class="hidden space-y-2">
+        <div
+          id="flop-form-container"
+          class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
+        ></div>
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Quelle est selon vous l'histoire la plus floppesque ?
+        </button>
+      </form>
+    </main>
+    <template id="flop-form-group">
+      <div
+        class="cursor-pointer select-none border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+      >
+        <label
+          class="cursor-pointer block font-medium text-center text-sm w-full h-full"
+        >
+          Convaincu par un ami de tenter une nouvelle coiffure "tendance", je me
+          suis rendu chez un coiffeur inexpérimenté. Résultat ? Une coupe
+          asymétrique totalement ratée juste avant une photo de famille
+          importante. J'ai dû porter un chapeau pendant des semaines pour cacher
+          le désastre.
+        </label>
+        <input type="radio" name="flop" value="coiffeur" class="mr-2 hidden" />
+      </div>
+    </template>
+  </body>
+</html>

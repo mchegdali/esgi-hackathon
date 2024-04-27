@@ -1,5 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@font-face {
+  font-family: "Aachen";
+  src: url("/fonts/aachen_bold_plain-webfont.woff2") format("woff2");
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .flop-heading {
+    @apply  bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 font-aachen tracking-wider;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+  }
+}
