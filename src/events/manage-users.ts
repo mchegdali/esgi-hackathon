@@ -17,12 +17,6 @@ export default async function manageUsers() {
           `Le joueur ${player.name} est dans la zone 'Flop Stories'`
         );
 
-        console.log(
-          `player ${player.name} is inFlopStoriesArea: ${
-            value ? "true" : "false"
-          }`
-        );
-
         const currentPlayerCount = WA.player.state.loadVariable(
           "playerCount:flopStoryZone"
         ) as number;
@@ -90,8 +84,8 @@ export default async function manageUsers() {
         if (value === PLAYERS_COUNT_NEEDED) {
           WA.ui.actionBar.addButton({
             id: "start-flop-stories-btn",
-            label: `Lancer le jeu 'Flop Stories'`,
-
+            label: "Lancer le jeu 'Flop Stories'",
+            toolTip: "Lancer le jeu 'Flop Stories'",
             callback: () => {
               console.log(`start event: 'Flop Stories'`);
             },

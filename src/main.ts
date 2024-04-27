@@ -60,6 +60,103 @@ WA.onInit()
 
     const isAdmin = WA.player.tags.includes("admin");
 
+    //#region Quiz
+    if (!isAdmin) {
+      // Déclencheur pour le quiz
+      WA.room.area.onEnter("quizZone").subscribe(async () => {
+        if (!WA.player.state.hasVariable("quizScore")) {
+          quizManager.openQuiz();
+        }
+      });
+
+      // Déclencheur pour fermer le quiz
+      WA.room.area.onLeave("quizZone").subscribe(() => {
+        //// Ferme le modal du quiz
+        quizManager.closeQuiz();
+      });
+
+      WA.player.state.onVariableChange("quizScore").subscribe((newValue) => {
+        const totalQuestions = JSON.parse(
+          WA.state.loadVariable("quizQuestions") as string
+        ) as unknown[];
+        const actionMessage = WA.ui.displayActionMessage({
+          message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
+          callback: () => {},
+        });
+
+        setTimeout(async () => {
+          await actionMessage.remove();
+        }, 5000);
+      });
+    }
+    //#endregion
+
+    //#region Guess Who
+    if (!isAdmin) {
+      WA.room.area.onEnter("guessZone").subscribe(async () => {
+        if (
+          WA.player.state.hasVariable("quizScore") &&
+          !WA.player.state.hasVariable("guessWhoScore")
+        ) {
+          WA.ui.modal.openModal(
+            {
+              title: "Devine qui ?",
+              src: `${rootLink}/modals/guess-who/index.html`,
+              allow: null,
+              allowApi: true,
+              position: "center",
+            },
+            () => {
+              restoreAllControls();
+            }
+          );
+        }
+      });
+
+      WA.room.area.onLeave("guessZone").subscribe(() => {
+        WA.ui.modal.closeModal();
+      });
+
+      WA.player.state
+        .onVariableChange("guessWhoScore")
+        .subscribe((newValue) => {
+          const totalCharacters = JSON.parse(
+            WA.state.loadVariable("guessWhoQuestions") as string
+          ) as unknown[];
+          const actionMessage = WA.ui.displayActionMessage({
+            message: `Vous avez eu ${newValue} bonnes réponses sur ${totalCharacters.length} possibles.`,
+            callback: () => {},
+          });
+
+          setTimeout(async () => {
+            await actionMessage.remove();
+          }, 5000);
+        });
+    }
+    //#endregion
+
+    //#region Flop Story
+    // Déclencheur pour flop story
+    if (!isAdmin) {
+      WA.room.area.onEnter("flopStoryZone").subscribe(() => {
+        if (
+          WA.player.state.hasVariable("quizScore") &&
+          WA.player.state.hasVariable("guessWhoScore") &&
+          !WA.player.state.hasVariable("flopStoryScore")
+        ) {
+          flopStoryManager.openFlopStory();
+        }
+      });
+
+      // Déclencheur pour fermer flop story
+      WA.room.area.onLeave("flopStoryZone").subscribe(() => {
+        //// Ferme le modal de flop story
+        flopStoryManager.closeFlopStory();
+      });
+    }
+    //#endregion
+
+    //#region admin
     if (isAdmin) {
       const adminActionMessage = WA.ui.displayActionMessage({
         message: "Vous êtes administrateur.",
@@ -69,110 +166,74 @@ WA.onInit()
       setTimeout(async () => {
         await adminActionMessage.remove();
       }, 5000);
+
+      WA.players
+        .onVariableChange("quizScore")
+        .subscribe(({ player, value }) => {
+          const currentScores = (WA.player.state.loadVariable("scores") ??
+            {}) as Record<
+            string,
+            {
+              quiz: number;
+              guessWho: number;
+              flopStory: number;
+            }
+          >;
+
+          WA.player.state.saveVariable("scores", {
+            ...currentScores,
+            [player.playerId]: {
+              ...currentScores[player.playerId],
+              quiz: value,
+            },
+          });
+        });
+
+      WA.players
+        .onVariableChange("guessWhoScore")
+        .subscribe(({ player, value }) => {
+          const currentScores = (WA.player.state.loadVariable("scores") ??
+            {}) as Record<
+            string,
+            {
+              quiz: number;
+              guessWho: number;
+              flopStory: number;
+            }
+          >;
+
+          WA.player.state.saveVariable("scores", {
+            ...currentScores,
+            [player.playerId]: {
+              ...currentScores[player.playerId],
+              guess: value,
+            },
+          });
+        });
+
+      WA.players
+        .onVariableChange("flopStoryScore")
+        .subscribe(({ player, value }) => {
+          const currentScores = (WA.player.state.loadVariable("scores") ??
+            {}) as Record<
+            string,
+            {
+              quiz: number;
+              guessWho: number;
+              flopStory: number;
+            }
+          >;
+
+          WA.player.state.saveVariable("scores", {
+            ...currentScores,
+            [player.playerId]: {
+              ...currentScores[player.playerId],
+              flopStory: value,
+            },
+          });
+        });
     }
-
-    //#region Quiz
-    // Déclencheur pour le quiz
-    WA.room.area.onEnter("quizZone").subscribe(async () => {
-      if (!WA.player.state.hasVariable("quizScore")) {
-        quizManager.openQuiz();
-      }
-    });
-
-    // Déclencheur pour fermer le quiz
-    WA.room.area.onLeave("quizZone").subscribe(() => {
-      //// Ferme le modal du quiz
-      quizManager.closeQuiz();
-    });
-
-    WA.player.state.onVariableChange("quizScore").subscribe((newValue) => {
-      const totalQuestions = JSON.parse(
-        WA.state.loadVariable("quizQuestions") as string
-      ) as unknown[];
-      const actionMessage = WA.ui.displayActionMessage({
-        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
-        callback: () => {},
-      });
-
-      setTimeout(async () => {
-        await actionMessage.remove();
-      }, 5000);
-    });
     //#endregion
-
-    //#region Guess Who
-    WA.room.area.onEnter("guessZone").subscribe(async () => {
-      if (
-        WA.player.state.hasVariable("quizScore") &&
-        !WA.player.state.hasVariable("guessWhoScore")
-      ) {
-        WA.ui.modal.openModal(
-          {
-            title: "Devine qui ?",
-            src: `${rootLink}/modals/guess-who/index.html`,
-            allow: null,
-            allowApi: true,
-            position: "center",
-          },
-          () => {
-            restoreAllControls();
-          }
-        );
-      }
-    });
-
-    WA.room.area.onLeave("guessZone").subscribe(() => {
-      WA.ui.modal.closeModal();
-    });
-
-    WA.player.state.onVariableChange("guessWhoScore").subscribe((newValue) => {
-      const totalCharacters = JSON.parse(
-        WA.state.loadVariable("guessWhoQuestions") as string
-      ) as unknown[];
-      const actionMessage = WA.ui.displayActionMessage({
-        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalCharacters.length} possibles.`,
-        callback: () => {},
-      });
-
-      setTimeout(async () => {
-        await actionMessage.remove();
-      }, 5000);
-    });
-    //#endregion
-
-    //#region Flop Story
-    // Déclencheur pour flop story
-    WA.room.area.onEnter("flopStoryZone").subscribe(() => {
-      if (
-        WA.player.state.hasVariable("quizScore") &&
-        WA.player.state.hasVariable("guessWhoScore") &&
-        !WA.player.state.hasVariable("flopStoryScore")
-      ) {
-        flopStoryManager.openFlopStory();
-      }
-    });
-
-    // Déclencheur pour fermer flop story
-    WA.room.area.onLeave("flopStoryZone").subscribe(() => {
-      //// Ferme le modal de flop story
-      flopStoryManager.closeFlopStory();
-    });
-
-    WA.player.state.onVariableChange("flopStoryScore").subscribe((newValue) => {
-      const totalQuestions = JSON.parse(
-        WA.state.loadVariable("flopStoriesQuestions") as string
-      ) as unknown[];
-      const actionMessage = WA.ui.displayActionMessage({
-        message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
-        callback: () => {},
-      });
-
-      setTimeout(async () => {
-        await actionMessage.remove();
-      }, 5000);
-    });
-    //#endregion
-
     //Afficher/Masquer les portes pour voir les tunnels
     setupDoorTriggers("right_door_zone", "doors/door_right");
     setupDoorTriggers("center_door_zone", "doors/door_center");

@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="../../src/assets/index.css" />
   </head>
 
-  <body class="h-screen flex flex-col items-center justify-center text-white">
+  <body
+    class="min-h-screen w-full flex flex-col items-center justify-center text-white"
+  >
     <header>
       <h1
         class="uppercase flop-heading cursor-default select-none text-6xl inline-block"
@@ -17,9 +19,13 @@
         Flop Stories
       </h1>
     </header>
-    <main class="w-full max-w-xl p-8 space-y-2">
-      <!-- Histoire 1 -->
-      <div id="question1" class="question space-y-2">
+    <main class="w-full max-w-screen-xl space-y-2 flex justify-center px-2">
+      <div
+        id="flop-story"
+        data-story="0"
+        data-end="false"
+        class="max-w-2xl peer group space-y-2"
+      >
         <p class="text-lg font-medium text-center">
           Convaincu par un ami de tenter une nouvelle coiffure "tendance", je me
           suis rendu chez un coiffeur inexpérimenté. Résultat ? Une coupe
@@ -28,155 +34,53 @@
           le désastre.
         </p>
 
-        <button
-          type="button"
-          data-question="1"
-          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Histoire suivante
-        </button>
-      </div>
-
-      <!-- Histoire 2 -->
-      <div id="question2" class="question hidden mt-2">
-        <p class="text-lg font-medium text-center">
-          Motivé pour impressionner lors d'un dîner, j'ai tenté de faire un
-          gâteau sophistiqué. Malheureusement, distrait par un appel, j'ai
-          oublié le gâteau au four. L'alarme incendie a sonné juste au moment où
-          mes invités arrivaient, accueillis par une fumée noire et une odeur de
-          brûlé.
-        </p>
-
-        <button
-          type="button"
-          data-question="2"
-          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Histoire suivante
-        </button>
-      </div>
-
-      <!-- Histoire 3 -->
-      <div id="question3" class="question hidden mt-2">
-        <p class="text-lg font-medium text-center">
-          Pour mon premier rendez-vous avec quelqu'un que j'avais rencontré en
-          ligne, j'ai confondu le jour. J'ai donc soigneusement préparé et
-          attendu dans un café... un jour trop tôt. En réalisant mon erreur,
-          j'étais trop gêné pour lui avouer et j'ai prétendu avoir eu un
-          empêchement le jour suivant.
-        </p>
-
-        <button
-          type="button"
-          data-question="3"
-          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Histoire suivante
-        </button>
-      </div>
-
-      <!-- Histoire 4 -->
-      <div id="question4" class="question hidden mt-2">
-        <p class="text-lg font-medium text-center">
-          Ayant sous-estimé une randonnée "facile", je suis parti en sandales et
-          sans eau suffisante. Résultat ? Des pieds en piteux état et une
-          déshydratation qui m'ont valu une fin de parcours en voiturette de
-          golf, appelée en urgence par un groupe de randonneurs compatissants.
-        </p>
-
-        <button
-          type="button"
-          data-question="4"
-          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Histoire suivante
-        </button>
+        <div class="flex gap-4">
+          <button
+            type="button"
+            id="previous-story"
+            class="group-data-[story=0]:hidden w-full bg-gradient-to-r to-blue-400/15 via-purple-600/15 from-orange-300/15 hover:to-blue-500/25 hover:via-purple-700/25 hover:from-orange-400/25 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Histoire précédente
+          </button>
+          <button
+            type="button"
+            id="next-story"
+            class="w-full bg-gradient-to-r text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline from-blue-500/50 via-purple-700/50 to-orange-400/50 hover:from-blue-600/80 hover:via-purple-800/80 hover:to-orange-500/80 group-data-[end=true]:from-blue-500 group-data-[end=true]:via-purple-700 group-data-[end=true]:to-orange-400 group-data-[end=true]:hover:from-blue-600 group-data-[end=true]:hover:via-purple-800 group-data-[end=true]:hover:to-orange-500"
+          >
+            Histoire suivante
+          </button>
+        </div>
       </div>
 
       <!-- Vote 5 -->
-      <div id="question5" class="question hidden mt-2">
-        <form id="flopForm" class="flex flex-col gap-2">
-          <!-- Premiere histoire -->
-          <div
-            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
-          >
-            <label class="block font-medium text-center w-full h-full">
-              <input
-                type="radio"
-                name="flop"
-                value="coiffeur"
-                class="mr-2 hidden"
-              />
-              Convaincu par un ami de tenter une nouvelle coiffure "tendance",
-              je me suis rendu chez un coiffeur inexpérimenté. Résultat ? Une
-              coupe asymétrique totalement ratée juste avant une photo de
-              famille importante. J'ai dû porter un chapeau pendant des semaines
-              pour cacher le désastre.
-            </label>
-          </div>
-
-          <div
-            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
-          >
-            <label class="block font-medium text-center w-full h-full">
-              <input
-                type="radio"
-                name="flop"
-                value="coiffeur"
-                class="mr-2 hidden"
-              />
-              Motivé pour impressionner lors d'un dîner, j'ai tenté de faire un
-              gâteau sophistiqué. Malheureusement, distrait par un appel, j'ai
-              oublié le gâteau au four. L'alarme incendie a sonné juste au
-              moment où mes invités arrivaient, accueillis par une fumée noire
-              et une odeur de brûlé.
-            </label>
-          </div>
-
-          <div
-            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
-          >
-            <label class="block font-medium text-center w-full h-full">
-              <input
-                type="radio"
-                name="flop"
-                value="coiffeur"
-                class="mr-2 hidden"
-              />
-              Pour mon premier rendez-vous avec quelqu'un que j'avais rencontré
-              en ligne, j'ai confondu le jour. J'ai donc soigneusement préparé
-              et attendu dans un café... un jour trop tôt. En réalisant mon
-              erreur, j'étais trop gêné pour lui avouer et j'ai prétendu avoir
-              eu un empêchement le jour suivant.
-            </label>
-          </div>
-
-          <div
-            class="border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
-          >
-            <label class="block font-medium text-center w-full h-full">
-              <input
-                type="radio"
-                name="flop"
-                value="coiffeur"
-                class="mr-2 hidden"
-              />
-              Ayant sous-estimé une randonnée "facile", je suis parti en
-              sandales et sans eau suffisante. Résultat ? Des pieds en piteux
-              état et une déshydratation qui m'ont valu une fin de parcours en
-              voiturette de golf, appelée en urgence par un groupe de
-              randonneurs compatissants.
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Quelle est selon vous l'histoire la plus floppesque ?
-          </button>
-        </form>
-      </div>
+      <form id="flopForm" class="hidden space-y-2">
+        <div
+          id="flop-form-container"
+          class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
+        ></div>
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-blue-500 via-purple-700 to-orange-400 hover:from-blue-600 hover:via-purple-800 hover:to-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Quelle est selon vous l'histoire la plus floppesque ?
+        </button>
+      </form>
     </main>
+    <template id="flop-form-group">
+      <div
+        class="cursor-pointer select-none border p-2 rounded-md has-[:checked]:bg-gradient-to-r has-[:checked]:from-blue-500 has-[:checked]:via-purple-700 has-[:checked]:to-orange-400 has-[:checked]:border-orange-400"
+      >
+        <label
+          class="cursor-pointer block font-medium text-center text-sm w-full h-full"
+        >
+          Convaincu par un ami de tenter une nouvelle coiffure "tendance", je me
+          suis rendu chez un coiffeur inexpérimenté. Résultat ? Une coupe
+          asymétrique totalement ratée juste avant une photo de famille
+          importante. J'ai dû porter un chapeau pendant des semaines pour cacher
+          le désastre.
+        </label>
+        <input type="radio" name="flop" value="coiffeur" class="mr-2 hidden" />
+      </div>
+    </template>
   </body>
 </html>
