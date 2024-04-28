@@ -59,4 +59,5 @@ If you add third party assets in your map, do not forget to:
   * Mini Jeux DevineQui: Bouaki sani jean arthur / JabsRaighs
   * Mini Jeux Quiz + Flop Stories:  Antonin CAVANNE /37anton
   * Mini-Jeux (Revue + debugs) + First Time User Experience + La Voix (gestion event et admin): Moustapha CHEGDALI / mchegdali
+
 ○ Suivre la procédure d'installation du starter-kit
