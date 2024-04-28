@@ -1,6 +1,10 @@
 /// <reference types="@workadventure/iframe-api-typings" />
 
 WA.onInit().then(async () => {
+  await WA.players.configureTracking({
+    players: true,
+  });
+
   const scoresListElement = document.getElementById(
     "scoresList"
   ) as HTMLUListElement;
@@ -8,17 +12,41 @@ WA.onInit().then(async () => {
     "score-row"
   ) as HTMLTemplateElement;
 
-  const scores = WA.player.state.loadVariable("scores") as Record<
+  const playerLaVoix = [...WA.players.list()].find((player) => {
+    return player.name === "La Voix";
+  });
+
+  console.log("playerLaVoix", playerLaVoix);
+
+  let scores: Record<
     string,
     { quiz: number; guessWho: number; flopStory: number }
   >;
 
+  if (WA.player.state.hasVariable("scores")) {
+    scores = WA.player.state.loadVariable("scores") as Record<
+      string,
+      { quiz: number; guessWho: number; flopStory: number }
+    >;
+  } else {
+    scores = playerLaVoix?.state.scores as Record<
+      string,
+      { quiz: number; guessWho: number; flopStory: number }
+    >;
+  }
+
+  console.log(scores);
+
   // calcul du score global et création du tableau de joueurs avec scores
   const playersWithTotalScores = Object.keys(scores).map((playerName) => {
     const playerScores = scores[playerName];
-    const totalScore =
-      playerScores.quiz + playerScores.guessWho + playerScores.flopStory; // Somme des scores des différents jeux
-    return { playerName, totalScore, ...playerScores };
+    return {
+      playerName,
+      totalScore:
+        playerScores.quiz +
+        playerScores.guessWho +
+        (playerScores.flopStory || 0),
+    };
   });
 
   // On tri les joueurs par score total décroissant

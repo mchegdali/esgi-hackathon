@@ -24,37 +24,6 @@ let flopStoryManager = new FlopStoryManager(
   closeEventModal
 );
 
-const audioFiles = [
-  {
-    name: "bienvenu.mp3",
-    htmlSrc: "http://localhost:5173/templates/bienvenu.html",
-  },
-  {
-    name: "mission_quiz.mp3",
-    htmlSrc: "http://localhost:5173/templates/mission_quiz.html",
-  },
-  {
-    name: "regle_quiz.mp3",
-    htmlSrc: "http://localhost:5173/templates/regle_quiz.html",
-  },
-  {
-    name: "mission_devine_qui.mp3",
-    htmlSrc: "http://localhost:5173/templates/mission_devine_qui.html",
-  },
-  {
-    name: "regle_devine_qui.mp3",
-    htmlSrc: "http://localhost:5173/templates/regle_devine_qui.html",
-  },
-  {
-    name: "mission_flop_story.mp3",
-    htmlSrc: "http://localhost:5173/templates/mission_flop_story.html",
-  },
-  {
-    name: "regle_flop_story.mp3",
-    htmlSrc: "http://localhost:5173/templates/regle_flop_story.html",
-  },
-];
-
 async function zoomOnArea(areaName: string) {
   const area = await WA.room.area.get(areaName);
   return WA.camera.set(
@@ -109,7 +78,7 @@ WA.onInit()
 
       WA.player.state.onVariableChange("quizScore").subscribe((newValue) => {
         const totalQuestions = JSON.parse(
-          WA.state.loadVariable("quizQuestions") as string
+          WA.state.loadVariable("quizAnswers") as string
         ) as unknown[];
         const actionMessage = WA.ui.displayActionMessage({
           message: `Vous avez eu ${newValue} bonnes réponses sur ${totalQuestions.length} possibles.`,
@@ -304,7 +273,27 @@ WA.onInit()
           id: "end-flop-btn",
           label: "Terminer le Flop Story",
           callback: async () => {
-            await WA.event.broadcast("flop:end", null);
+            const scores = WA.player.state.loadVariable("scores") as Record<
+              string,
+              { quiz: number; guessWho: number; flopStory: number }
+            >;
+
+            const playersWithTotalScores = Object.keys(scores).map(
+              (playerName) => {
+                const playerScores = scores[playerName];
+                return {
+                  playerName,
+                  totalScore:
+                    playerScores.quiz +
+                    playerScores.guessWho +
+                    playerScores.flopStory,
+                };
+              }
+            );
+
+            playersWithTotalScores.sort((a, b) => b.totalScore - a.totalScore);
+
+            await WA.event.broadcast("flop:end", playersWithTotalScores);
           },
         });
       });
@@ -317,27 +306,39 @@ WA.onInit()
     //#endregion
 
     WA.event.on("quiz:open").subscribe(() => {
-      playAudio(audioFiles[1].name);
+      playAudio("mission_quiz.mp3");
     });
 
     WA.event.on("quiz:start").subscribe(() => {
-      playAudio(audioFiles[2].name);
+      playAudio("regle_quiz.mp3");
     });
 
     WA.event.on("guess:open").subscribe(() => {
-      playAudio(audioFiles[3].name);
+      playAudio("mission_devine_qui.mp3");
     });
 
     WA.event.on("guess:start").subscribe(() => {
-      playAudio(audioFiles[4].name);
+      playAudio("regle_devine_qui.mp3");
     });
 
     WA.event.on("flop:open").subscribe(() => {
-      playAudio(audioFiles[5].name);
+      playAudio("mission_flop_story.mp3");
     });
 
     WA.event.on("flop:start").subscribe(() => {
-      playAudio(audioFiles[6].name);
+      playAudio("regle_flop_story.mp3");
+    });
+
+    WA.event.on("flop:end").subscribe(() => {
+      playAudio("flop_story_end.mp3");
+
+      WA.ui.modal.openModal({
+        title: "Flop Story",
+        src: new URL("/modals/scores/index.html", rootLink).href,
+        allow: null,
+        allowApi: true,
+        position: "center",
+      });
     });
 
     //#endregion
@@ -365,13 +366,20 @@ WA.onInit()
             }
           >;
 
-          WA.player.state.saveVariable("scores", {
-            ...currentScores,
-            [player.name]: {
-              ...currentScores[player.name],
-              quiz: value,
+          WA.player.state.saveVariable(
+            "scores",
+            {
+              ...currentScores,
+              [player.name]: {
+                ...currentScores[player.name],
+                quiz: value,
+              },
             },
-          });
+            {
+              public: true,
+              persist: true,
+            }
+          );
         });
 
       WA.players
@@ -387,13 +395,20 @@ WA.onInit()
             }
           >;
 
-          WA.player.state.saveVariable("scores", {
-            ...currentScores,
-            [player.name]: {
-              ...currentScores[player.name],
-              guess: value,
+          WA.player.state.saveVariable(
+            "scores",
+            {
+              ...currentScores,
+              [player.name]: {
+                ...currentScores[player.name],
+                guess: value,
+              },
             },
-          });
+            {
+              public: true,
+              persist: true,
+            }
+          );
         });
 
       WA.players
@@ -410,13 +425,21 @@ WA.onInit()
             }
           >;
 
-          WA.player.state.saveVariable("scores", {
-            ...currentScores,
-            [chosenPlayerName]: {
-              ...currentScores[player.name],
-              flopStory: value,
+          WA.player.state.saveVariable(
+            "scores",
+            {
+              ...currentScores,
+              [chosenPlayerName]: {
+                ...currentScores[player.name],
+                flopStory:
+                  (currentScores[chosenPlayerName]?.flopStory ?? 0) - 1,
+              },
             },
-          });
+            {
+              public: true,
+              persist: true,
+            }
+          );
         });
     }
     //#endregion
