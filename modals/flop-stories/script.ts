@@ -1,12 +1,12 @@
 /// <reference types="@workadventure/iframe-api-typings" />
+import slugify from "@sindresorhus/slugify";
 
 interface FlopStory {
-  playerId: number;
+  playerName: string;
   story: string;
 }
 
 WA.onInit().then(async () => {
-  console.log("Script started successfully flopStory");
   await WA.players.configureTracking();
 
   const storyElement = document.getElementById("flop-story") as HTMLDivElement;
@@ -28,18 +28,19 @@ WA.onInit().then(async () => {
   ) as HTMLTemplateElement;
 
   const flops = JSON.parse(
-    WA.state.loadVariable("flopStoriesQuestions") as string
+    WA.state.loadVariable("flopStories") as string
   ) as FlopStory[];
 
   for (let i = 0; i < flops.length; i++) {
-    const { playerId, story } = flops[i];
+    const { playerName, story } = flops[i];
     const formGroup = formGroupTemplate.content.cloneNode(true) as HTMLElement;
     const input = formGroup.querySelector("input") as HTMLInputElement;
     const label = formGroup.querySelector("label") as HTMLLabelElement;
 
+    const slugifiedId = `flop-${slugify(playerName)}`;
     input.value = i.toString();
-    input.id = `flop-${playerId}`;
-    label.htmlFor = `flop-${playerId}`;
+    input.id = slugifiedId;
+    label.htmlFor = slugifiedId;
     label.innerText = story;
 
     formElementContainer.appendChild(formGroup);
@@ -100,7 +101,7 @@ WA.onInit().then(async () => {
 
     const flop = flops[parseInt(chosenFlopIndex as string)];
 
-    await WA.player.state.saveVariable("chosenFlop", flop, {
+    await WA.player.state.saveVariable("chosenFlop", flop.playerName, {
       public: true,
       persist: true,
     });

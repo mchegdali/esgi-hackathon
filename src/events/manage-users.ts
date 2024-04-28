@@ -79,35 +79,7 @@ export default async function manageUsers() {
     // activate area button if all players are in the area
     WA.player.state
       .onVariableChange("playerCount:flopStoryZone")
-      .subscribe((value) => {
-        WA.ui.actionBar.removeButton("start-flop-stories-btn");
-        if (value === PLAYERS_COUNT_NEEDED) {
-          WA.ui.actionBar.addButton({
-            id: "start-flop-stories-btn",
-            label: "Lancer le jeu 'Flop Stories'",
-            toolTip: "Lancer le jeu 'Flop Stories'",
-            callback: () => {
-              console.log(`start event: 'Flop Stories'`);
-            },
-          });
-        }
-      });
-
-    WA.player.state
-      .onVariableChange("playerCount:quizZone")
-      .subscribe((value) => {
-        WA.ui.actionBar.removeButton("start-quiz-btn");
-        if (value === PLAYERS_COUNT_NEEDED) {
-          WA.ui.actionBar.addButton({
-            id: "start-quiz-btn",
-            label: `Lancer le jeu 'Quiz'`,
-
-            callback: () => {
-              console.log(`start event: 'Quiz'`);
-            },
-          });
-        }
-      });
+      .subscribe(() => {});
 
     WA.player.state
       .onVariableChange("playerCount:guessZone")
