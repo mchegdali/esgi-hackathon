@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body class="h-screen flex items-center justify-center text-white">
     <h1>Classement des Joueurs</h1>
     <ul id="scoresList"></ul>
     <script>
-        window.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'updateScores') {
-            const players = event.data.scores;
-            const scoresList = document.getElementById('scoresList');
-            scoresList.innerHTML = ''; // On efface les éléments existants
-            players.forEach(player => {
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "updateScores") {
+          const players = event.data.scores;
+          const scoresList = document.getElementById("scoresList");
+          scoresList.innerHTML = ""; // On efface les éléments existants
+          players.forEach((player) => {
             scoresList.innerHTML += `<li>Joueur ${player.playerId}: Total - ${player.totalScore}, Quiz - ${player.quiz}, Devine Qui - ${player.guessWho}, Flop Story - ${player.flopStory}</li>`;
-            });
+          });
         }
-        });
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -6,10 +6,16 @@ import { QuizManager } from "./quizManager";
 import { FlopStoryManager } from "./flopStoryManager";
 import { rootLink } from "./config";
 import restoreAllControls from "./utils/restore-all-controls";
+import { Sound } from "@workadventure/iframe-api-typings";
+import { SoundConfig } from "@workadventure/iframe-api-typings/play/src/front/Api/Iframe/Sound/Sound";
 
-console.log("Script started successfully");
+interface FlopStory {
+  playerId: number;
+  story: string;
+}
 
 let currentModal: any = undefined;
+let currentSound: Sound;
 
 let quizManager = new QuizManager(WA);
 let flopStoryManager = new FlopStoryManager(
@@ -65,7 +71,9 @@ WA.onInit()
       // Déclencheur pour le quiz
       WA.room.area.onEnter("quizZone").subscribe(async () => {
         if (!WA.player.state.hasVariable("quizScore")) {
-          quizManager.openQuiz();
+          WA.event.on("quiz:start").subscribe(() => {
+            quizManager.openQuiz();
+          });
         }
       });
 
@@ -98,18 +106,20 @@ WA.onInit()
           WA.player.state.hasVariable("quizScore") &&
           !WA.player.state.hasVariable("guessWhoScore")
         ) {
-          WA.ui.modal.openModal(
-            {
-              title: "Devine qui ?",
-              src: `${rootLink}/modals/guess-who/index.html`,
-              allow: null,
-              allowApi: true,
-              position: "center",
-            },
-            () => {
-              restoreAllControls();
-            }
-          );
+          WA.event.on("guess:start").subscribe(() => {
+            WA.ui.modal.openModal(
+              {
+                title: "Devine qui ?",
+                src: `${rootLink}/modals/guess-who/index.html`,
+                allow: null,
+                allowApi: true,
+                position: "center",
+              },
+              () => {
+                restoreAllControls();
+              }
+            );
+          });
         }
       });
 
@@ -142,9 +152,11 @@ WA.onInit()
         if (
           WA.player.state.hasVariable("quizScore") &&
           WA.player.state.hasVariable("guessWhoScore") &&
-          !WA.player.state.hasVariable("flopStoryScore")
+          !WA.player.state.hasVariable("chosenFlop")
         ) {
-          flopStoryManager.openFlopStory();
+          WA.event.on("flop:start").subscribe(() => {
+            flopStoryManager.openFlopStory();
+          });
         }
       });
 
@@ -153,14 +165,179 @@ WA.onInit()
         //// Ferme le modal de flop story
         flopStoryManager.closeFlopStory();
       });
-    }else{
-      //affichage des scores si admin et rentre dans la zone de flop story
-      WA.room.area.onEnter("flopStoryZone").subscribe(() => {
-        displayScores();
+    }
+    //#endregion
+
+    //#region Events
+    //#region Manage events for admin
+    if (isAdmin) {
+      WA.ui.actionBar.addButton({
+        id: "open-quiz-btn",
+        label: "Ouvrir la salle de quiz",
+        callback: async () => {
+          const [area] = await Promise.all([
+            WA.room.area.get("quizZone"),
+            WA.event.broadcast("quiz:open", null),
+            WA.state.saveVariable("quizDoor", true),
+            WA.player.teleport(528, 432),
+          ]);
+          WA.camera.set(
+            area.x + area.width / 2,
+            area.y + area.height / 2,
+            area.width,
+            area.height,
+            true,
+            true
+          );
+        },
+      });
+
+      WA.event.on("quiz:open").subscribe(() => {
+        WA.ui.actionBar.removeButton("open-quiz-btn");
+        WA.ui.actionBar.addButton({
+          id: "start-quiz-btn",
+          label: "Démarrer le quiz",
+          callback: async () => {
+            await WA.event.broadcast("quiz:start", null);
+          },
+        });
+      });
+
+      WA.event.on("quiz:start").subscribe(() => {
+        WA.ui.actionBar.removeButton("start-quiz-btn");
+
+        WA.ui.actionBar.addButton({
+          id: "end-quiz-btn",
+          label: "Terminer le quiz",
+          callback: async () => {
+            await WA.event.broadcast("quiz:end", null);
+          },
+        });
+      });
+
+      WA.event.on("quiz:end").subscribe(() => {
+        WA.ui.actionBar.removeButton("end-quiz-btn");
+        WA.ui.actionBar.addButton({
+          id: "open-guess-btn",
+          label: "Ouvrir le Devine qui ?",
+          callback: async () => {
+            const [area] = await Promise.all([
+              WA.room.area.get("guessZone"),
+              WA.event.broadcast("guess:open", null),
+              WA.state.saveVariable("guessDoor", true),
+              WA.player.teleport(1120, 512),
+            ]);
+            WA.camera.set(
+              area.x + area.width / 2,
+              area.y + area.height / 2,
+              area.width,
+              area.height,
+              true,
+              true
+            );
+          },
+        });
+      });
+
+      WA.event.on("guess:open").subscribe(() => {
+        WA.ui.actionBar.removeButton("open-guess-btn");
+        WA.ui.actionBar.addButton({
+          id: "start-guess-btn",
+          label: "Démarrer le Devine qui ?",
+          callback: async () => {
+            await WA.event.broadcast("guess:start", null);
+          },
+        });
+      });
+
+      WA.event.on("guess:start").subscribe(() => {
+        WA.ui.actionBar.removeButton("start-guess-btn");
+        WA.ui.actionBar.addButton({
+          id: "end-guess-btn",
+          label: "Terminer le Devine qui ?",
+          callback: async () => {
+            await WA.event.broadcast("guess:end", null);
+          },
+        });
+      });
+
+      WA.event.on("guess:end").subscribe(() => {
+        WA.ui.actionBar.removeButton("end-guess-btn");
+        WA.ui.actionBar.addButton({
+          id: "open-flop-btn",
+          label: "Ouvrir le Flop Stories",
+          callback: async () => {
+            const [area] = await Promise.all([
+              WA.room.area.get("flopStoryZone"),
+              WA.event.broadcast("flop:open", null),
+              WA.state.saveVariable("flopDoor", true),
+              WA.player.teleport(1744, 512),
+            ]);
+            WA.camera.set(
+              area.x + area.width / 2,
+              area.y + area.height / 2,
+              area.width,
+              area.height,
+              true,
+              true
+            );
+          },
+        });
+      });
+
+      WA.event.on("flop:open").subscribe(() => {
+        WA.ui.actionBar.removeButton("open-flop-btn");
+        WA.ui.actionBar.addButton({
+          id: "start-flop-btn",
+          label: "Démarrer le Flop Story",
+          callback: async () => {
+            await WA.event.broadcast("flop:start", null);
+          },
+        });
+      });
+
+      WA.event.on("flop:start").subscribe(() => {
+        WA.ui.actionBar.removeButton("start-flop-btn");
+        WA.ui.actionBar.addButton({
+          id: "end-flop-btn",
+          label: "Terminer le Flop Story",
+          callback: async () => {
+            await WA.event.broadcast("flop:end", null);
+          },
+        });
+      });
+
+      WA.event.on("flop:end").subscribe(() => {
+        WA.ui.actionBar.removeButton("end-flop-btn");
       });
     }
     //#endregion
 
+    WA.event.on("quiz:open").subscribe(() => {
+      playAudio(audioFiles[1].name);
+    });
+
+    WA.event.on("quiz:start").subscribe(() => {
+      playAudio(audioFiles[2].name);
+    });
+
+    WA.event.on("guess:open").subscribe(() => {
+      playAudio(audioFiles[3].name);
+    });
+
+    WA.event.on("guess:start").subscribe(() => {
+      playAudio(audioFiles[4].name);
+    });
+
+    WA.event.on("flop:open").subscribe(() => {
+      playAudio(audioFiles[5].name);
+    });
+
+    WA.event.on("flop:start").subscribe(() => {
+      playAudio(audioFiles[6].name);
+    });
+
+    //#endregion
     //#region admin
     if (isAdmin) {
       const adminActionMessage = WA.ui.displayActionMessage({
@@ -217,8 +394,9 @@ WA.onInit()
         });
 
       WA.players
-        .onVariableChange("flopStoryScore")
+        .onVariableChange("chosenFlop")
         .subscribe(({ player, value }) => {
+          const chosenPlayerId = value as FlopStory["playerId"];
           const currentScores = (WA.player.state.loadVariable("scores") ??
             {}) as Record<
             string,
@@ -231,7 +409,7 @@ WA.onInit()
 
           WA.player.state.saveVariable("scores", {
             ...currentScores,
-            [player.playerId]: {
+            [chosenPlayerId]: {
               ...currentScores[player.playerId],
               flopStory: value,
             },
@@ -251,17 +429,16 @@ WA.onInit()
         console.log("Scripting API Extra ready");
       })
       .catch((e) => console.error(e));
-
-    // On appelle la vérification du temps avec la date et heure cibles
-    const eventDate = new Date("2024-04-25T20:45:00");
-    checkTimeAndTriggerEvent(eventDate);
   })
   .catch((e) => console.error(e));
 
 //Fonction pour écouter un audio
 function playAudio(audioFile: string) {
-  var sound = WA.sound.loadSound("../sounds/" + audioFile);
-  var config = {
+  if (currentSound) {
+    currentSound.stop();
+  }
+  currentSound = WA.sound.loadSound("../sounds/" + audioFile);
+  const config: SoundConfig = {
     volume: 0.5,
     loop: false,
     rate: 1,
@@ -270,37 +447,12 @@ function playAudio(audioFile: string) {
     seek: 0,
     mute: false,
   };
-  sound.play(config);
-}
-
-// Fonction pour faire écouter un audio + afficher le modal associé
-function triggerEvent(
-  audioFile: string,
-  src: string,
-  position: "left" | "right" | "center"
-) {
-  playAudio(audioFile);
-  showEventModal(src, position); // Affiche le popup
-}
-
-// Fonction pour vérifier l'heure et déclencher l'événement
-function checkTimeAndTriggerEvent(targetTime: Date) {
-  const now = new Date();
-  const delay = targetTime.getTime() - now.getTime();
-
-  if (delay > 0) {
-    setTimeout(() => {
-      triggerEvent(audioFiles[0].name, audioFiles[0].htmlSrc, "right");
-    }, delay);
-  }
+  currentSound.play(config);
 }
 
 //Fonction pour afficher un modal
 function showEventModal(src: string, position: "left" | "right" | "center") {
-  if (currentModal !== undefined) {
-    WA.ui.modal.closeModal(); // Ferme le modal précédent s'il existe
-    currentModal = undefined;
-  }
+  WA.ui.modal.closeModal();
   currentModal = WA.ui.modal.openModal({
     title: "Titre", // Titre du modal
     src: src, // Source HTML ou URL pour le contenu du modal
@@ -322,41 +474,18 @@ function closeEventModal() {
 //Fonction pour afficher/masquer les portes
 function setupDoorTriggers(zoneName: string, layerName: string) {
   WA.room.area.onEnter(zoneName).subscribe(() => {
-    WA.room.hideLayer(layerName);
+    const guessDoor = WA.state.loadVariable("guessDoor") as boolean;
+    if (guessDoor) {
+      WA.room.hideLayer(layerName);
+      WA.room.hideLayer(`${layerName}_block`);
+      WA.room.showLayer(`${layerName}_open`);
+    }
   });
-
   WA.room.area.onLeave(zoneName).subscribe(() => {
     WA.room.showLayer(layerName);
+    WA.room.showLayer(`${layerName}_block`);
+    WA.room.hideLayer(`${layerName}_open`);
   });
-}
-
-// Fonction pour formater et afficher les scores dans la modal
-function displayScores() {
-  // On récupère les scores sauvegardés
-  const scores = WA.player.state.loadVariable("scores") as Record<string, { quiz: number; guessWho: number; flopStory: number }>;
-
-  // calcul du score global et création du tableau de joueurs avec scores
-  const playersWithTotalScores = Object.keys(scores).map(playerId => {
-    const playerScores = scores[playerId];
-    const totalScore = playerScores.quiz + playerScores.guessWho + playerScores.flopStory; // Somme des scores des différents jeux
-    return { playerId, totalScore, ...playerScores };
-  });
-
-  // On tri les joueurs par score total décroissant
-  playersWithTotalScores.sort((a, b) => b.totalScore - a.totalScore);
-
-  // Affichage modal via la fonction qui le fait
-  showEventModal("modal/scoreindex.html", "right")
-
-  // on attend un peu que l'iframe soit prête, puis on envoie les données
-  setTimeout(() => {
-    const iframe = document.querySelector('iframe');
-    if (iframe && iframe.contentWindow) {
-      iframe.contentWindow.postMessage({ type: 'updateScores', scores: playersWithTotalScores  }, '*');
-    } else {
-      console.error("Impossible de trouver l'iframe.");
-    }
-  }, 500); // Délai pour être sûr que l'iframe a le temps de charger
 }
 
 export {};

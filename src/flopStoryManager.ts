@@ -24,7 +24,7 @@ export class FlopStoryManager {
   }
 
   openFlopStory() {
-    if (!WA.player.state.hasVariable("flopStoryScore")) {
+    if (!WA.player.state.hasVariable("chosenFlop")) {
       this.waAPI.controls.disablePlayerControls(); //On bloque les mouvements des joueurs
 
       //On appelle la fonction pour ouvrir la modal qui se trouve dans main.ts
@@ -36,8 +36,8 @@ export class FlopStoryManager {
   }
 
   closeFlopStory() {
-    if (!WA.player.state.hasVariable("flopStoryScore")) {
-      WA.player.state.saveVariable("flopStoryScore", 0, {
+    if (!WA.player.state.hasVariable("chosenFlop")) {
+      WA.player.state.saveVariable("chosenFlop", 0, {
         public: true,
         persist: true,
       });

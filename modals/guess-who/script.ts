@@ -24,8 +24,6 @@ function selectRandomCharacter() {
     const randomIndex = Math.floor(Math.random() * characters.length);
     currentCharacter = characters.splice(randomIndex, 1)[0];
 
-    console.log(characters);
-
     updateTitle(currentCharacter);
   }
 }
@@ -64,8 +62,6 @@ formElement.addEventListener("submit", async function (event) {
 
   const celebrityName = selectedCharacter.name.trim().toLocaleLowerCase();
 
-  console.log(celebrityName, enteredText);
-
   const fuseResult = fuse.search(enteredText);
   const bestMatch = fuseResult[0];
 
@@ -76,7 +72,6 @@ formElement.addEventListener("submit", async function (event) {
     celebrityName === bestMatch.item.name.trim().toLocaleLowerCase()
   ) {
     currentScore++;
-    console.log("Correct answer!");
   }
   await next();
   this.reset();
@@ -86,8 +81,6 @@ function loadCharacters() {
   const charactersVar = JSON.parse(
     WA.state.loadVariable("guessWhoQuestions") as string
   ) as Character[];
-
-  console.log("Loaded characters: ", charactersVar);
 
   const charactersCount = charactersVar.length;
 
@@ -103,8 +96,6 @@ window.onload = function () {
   WA.onInit().then(() => {
     loadCharacters();
     selectRandomCharacter();
-
-    console.log("Current character: ", currentCharacter);
   });
 };
 
