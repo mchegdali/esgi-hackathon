@@ -29,7 +29,7 @@ export class FlopStoryManager {
 
       //On appelle la fonction pour ouvrir la modal qui se trouve dans main.ts
       this.openModalFunction(
-        `${rootLink}/modals/flop-stories/index.html`,
+        new URL("/modals/flop-stories/index.html", rootLink).href,
         "center"
       );
     }

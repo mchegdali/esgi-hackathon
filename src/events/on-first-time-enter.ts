@@ -1,37 +1,32 @@
-import { rootLink } from '../config';
-import disableAllControls from '../utils/disable-all-controls';
-import restoreAllControls from '../utils/restore-all-controls';
+import { rootLink } from "../config";
+import disableAllControls from "../utils/disable-all-controls";
+import restoreAllControls from "../utils/restore-all-controls";
 
 /**
  * This function is called when a player enters the starting area for the first time.
  */
 function onFirstTimeEnter() {
-  if (!WA.player.state.loadVariable('ftue')) {
+  if (!WA.player.state.loadVariable("ftue")) {
     // First Time User Experience = FTUE
     disableAllControls();
 
     WA.ui.modal.openModal(
       {
-        title: 'Bienvenue sur FlopStory !',
-        src: `${rootLink}/modals/welcome/index.html`,
-        // src: `https://workadventu.re`,
+        title: "Bienvenue sur FlopStory !",
+        src: new URL("/modals/welcome/index.html", rootLink).href,
         allow: null,
         allowApi: true,
-        position: 'center',
+        position: "center",
       },
       () => {
         restoreAllControls();
 
-        WA.player.state.saveVariable('ftue', true, {
+        WA.player.state.saveVariable("ftue", true, {
           public: false,
-          scope: 'world',
+          scope: "world",
           persist: true,
         });
       }
-    );
-
-    WA.chat.sendChatMessage(
-      `${WA.player.name} a rejoint le monde de FlopStory ! Souhaitez-lui la bienvenue !`
     );
   }
 }

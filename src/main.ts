@@ -6,11 +6,11 @@ import { QuizManager } from "./quizManager";
 import { FlopStoryManager } from "./flopStoryManager";
 import { rootLink } from "./config";
 import restoreAllControls from "./utils/restore-all-controls";
-import { Sound } from "@workadventure/iframe-api-typings";
+import { Area, Sound } from "@workadventure/iframe-api-typings";
 import { SoundConfig } from "@workadventure/iframe-api-typings/play/src/front/Api/Iframe/Sound/Sound";
 
 interface FlopStory {
-  playerId: number;
+  playerName: string;
   story: string;
 }
 
@@ -55,16 +55,40 @@ const audioFiles = [
   },
 ];
 
+async function zoomOnArea(areaName: string) {
+  const area = await WA.room.area.get(areaName);
+  return WA.camera.set(
+    area.x + area.width / 2,
+    area.y + area.height / 2,
+    area.width,
+    area.height,
+    true,
+    true
+  );
+}
+
 // Waiting for the API to be ready
 WA.onInit()
   .then(async () => {
     await WA.players.configureTracking({
       players: true,
     });
+    const isAdmin = WA.player.name === "La Voix";
 
     onFirstTimeEnter();
+    //Afficher/Masquer les portes pour voir les tunnels
+    setupDoorTriggers();
 
-    const isAdmin = WA.player.tags.includes("admin");
+    // Gestion caméra
+    ["quizZone", "guessZone", "flopStoryZone"].forEach((areaName) => {
+      WA.room.area.onEnter(areaName).subscribe(() => {
+        zoomOnArea(areaName);
+      });
+
+      WA.room.area.onLeave(areaName).subscribe(() => {
+        WA.camera.followPlayer();
+      });
+    });
 
     //#region Quiz
     if (!isAdmin) {
@@ -110,7 +134,7 @@ WA.onInit()
             WA.ui.modal.openModal(
               {
                 title: "Devine qui ?",
-                src: `${rootLink}/modals/guess-who/index.html`,
+                src: new URL("/modals/guess-who/index.html", rootLink).href,
                 allow: null,
                 allowApi: true,
                 position: "center",
@@ -175,20 +199,12 @@ WA.onInit()
         id: "open-quiz-btn",
         label: "Ouvrir la salle de quiz",
         callback: async () => {
-          const [area] = await Promise.all([
-            WA.room.area.get("quizZone"),
+          await Promise.all([
+            zoomOnArea("quizZone"),
             WA.event.broadcast("quiz:open", null),
             WA.state.saveVariable("quizDoor", true),
             WA.player.teleport(528, 432),
           ]);
-          WA.camera.set(
-            area.x + area.width / 2,
-            area.y + area.height / 2,
-            area.width,
-            area.height,
-            true,
-            true
-          );
         },
       });
 
@@ -211,6 +227,7 @@ WA.onInit()
           label: "Terminer le quiz",
           callback: async () => {
             await WA.event.broadcast("quiz:end", null);
+            WA.camera.followPlayer();
           },
         });
       });
@@ -221,20 +238,12 @@ WA.onInit()
           id: "open-guess-btn",
           label: "Ouvrir le Devine qui ?",
           callback: async () => {
-            const [area] = await Promise.all([
-              WA.room.area.get("guessZone"),
+            await Promise.all([
+              zoomOnArea("guessZone"),
               WA.event.broadcast("guess:open", null),
               WA.state.saveVariable("guessDoor", true),
               WA.player.teleport(1120, 512),
             ]);
-            WA.camera.set(
-              area.x + area.width / 2,
-              area.y + area.height / 2,
-              area.width,
-              area.height,
-              true,
-              true
-            );
           },
         });
       });
@@ -257,6 +266,7 @@ WA.onInit()
           label: "Terminer le Devine qui ?",
           callback: async () => {
             await WA.event.broadcast("guess:end", null);
+            WA.camera.followPlayer();
           },
         });
       });
@@ -267,20 +277,12 @@ WA.onInit()
           id: "open-flop-btn",
           label: "Ouvrir le Flop Stories",
           callback: async () => {
-            const [area] = await Promise.all([
-              WA.room.area.get("flopStoryZone"),
+            await Promise.all([
+              zoomOnArea("flopStoryZone"),
               WA.event.broadcast("flop:open", null),
               WA.state.saveVariable("flopDoor", true),
               WA.player.teleport(1744, 512),
             ]);
-            WA.camera.set(
-              area.x + area.width / 2,
-              area.y + area.height / 2,
-              area.width,
-              area.height,
-              true,
-              true
-            );
           },
         });
       });
@@ -309,6 +311,7 @@ WA.onInit()
 
       WA.event.on("flop:end").subscribe(() => {
         WA.ui.actionBar.removeButton("end-flop-btn");
+        WA.camera.followPlayer();
       });
     }
     //#endregion
@@ -364,8 +367,8 @@ WA.onInit()
 
           WA.player.state.saveVariable("scores", {
             ...currentScores,
-            [player.playerId]: {
-              ...currentScores[player.playerId],
+            [player.name]: {
+              ...currentScores[player.name],
               quiz: value,
             },
           });
@@ -386,8 +389,8 @@ WA.onInit()
 
           WA.player.state.saveVariable("scores", {
             ...currentScores,
-            [player.playerId]: {
-              ...currentScores[player.playerId],
+            [player.name]: {
+              ...currentScores[player.name],
               guess: value,
             },
           });
@@ -396,7 +399,7 @@ WA.onInit()
       WA.players
         .onVariableChange("chosenFlop")
         .subscribe(({ player, value }) => {
-          const chosenPlayerId = value as FlopStory["playerId"];
+          const chosenPlayerName = value as FlopStory["playerName"];
           const currentScores = (WA.player.state.loadVariable("scores") ??
             {}) as Record<
             string,
@@ -409,20 +412,16 @@ WA.onInit()
 
           WA.player.state.saveVariable("scores", {
             ...currentScores,
-            [chosenPlayerId]: {
-              ...currentScores[player.playerId],
+            [chosenPlayerName]: {
+              ...currentScores[player.name],
               flopStory: value,
             },
           });
         });
     }
     //#endregion
-    //Afficher/Masquer les portes pour voir les tunnels
-    setupDoorTriggers("right_door_zone", "doors/door_right");
-    setupDoorTriggers("center_door_zone", "doors/door_center");
-    setupDoorTriggers("left_door_zone", "doors/door_left");
 
-    await manageUsers();
+    await manageUsers(isAdmin);
     // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
     bootstrapExtra()
       .then(() => {
@@ -472,19 +471,48 @@ function closeEventModal() {
 }
 
 //Fonction pour afficher/masquer les portes
-function setupDoorTriggers(zoneName: string, layerName: string) {
-  WA.room.area.onEnter(zoneName).subscribe(() => {
-    const guessDoor = WA.state.loadVariable("guessDoor") as boolean;
-    if (guessDoor) {
-      WA.room.hideLayer(layerName);
-      WA.room.hideLayer(`${layerName}_block`);
-      WA.room.showLayer(`${layerName}_open`);
+function setupDoorTriggers() {
+  WA.room.area.onEnter("right_door_zone").subscribe(() => {
+    const doorState = WA.state.loadVariable("flopDoor") as boolean;
+    if (doorState) {
+      WA.room.hideLayer("doors/door_right");
+      WA.room.hideLayer("doors/door_right_block");
+      WA.room.showLayer("doors/door_right_open");
     }
   });
-  WA.room.area.onLeave(zoneName).subscribe(() => {
-    WA.room.showLayer(layerName);
-    WA.room.showLayer(`${layerName}_block`);
-    WA.room.hideLayer(`${layerName}_open`);
+  WA.room.area.onLeave("right_door_zone").subscribe(() => {
+    WA.room.showLayer("doors/door_right");
+    WA.room.showLayer("doors/door_right_block");
+    WA.room.hideLayer("doors/door_right_open");
+  });
+
+  WA.room.area.onEnter("center_door_zone").subscribe(() => {
+    const doorState = WA.state.loadVariable("guessDoor") as boolean;
+    if (doorState) {
+      WA.room.hideLayer("doors/door_center");
+      WA.room.hideLayer("doors/door_center_block");
+      WA.room.showLayer("doors/door_center_open");
+    }
+  });
+  WA.room.area.onLeave("center_door_zone").subscribe(() => {
+    WA.room.showLayer("doors/door_center");
+    WA.room.showLayer("doors/door_center_block");
+    WA.room.hideLayer("doors/door_center_open");
+  });
+
+  WA.room.area.onEnter("left_door_zone").subscribe(() => {
+    const doorState = WA.state.loadVariable("quizDoor") as boolean;
+    if (doorState) {
+      WA.room.hideLayer("doors/door_left");
+      WA.room.hideLayer("doors/door_left_block");
+      WA.room.showLayer("doors/door_left_open");
+    }
+  });
+
+  WA.room.area.onLeave("left_door_zone").subscribe(() => {
+    WA.room.showLayer("doors/door_left");
+    WA.room.showLayer("doors/door_left_block");
+    WA.room.hideLayer("doors/door_left_open");
   });
 }
 

@@ -1,42 +1,37 @@
 import { PLAYERS_COUNT_NEEDED } from "../config";
 
-export default async function manageUsers() {
-  // manage styles
-  const isAdmin = WA.player.tags.includes("admin");
-
+export default async function manageUsers(isAdmin: boolean) {
   if (isAdmin) {
     await WA.player.setOutlineColor(0, 0, 0);
   }
 
   if (isAdmin) {
     // manage players count
-    WA.players
-      .onVariableChange("inFlopStoriesArea")
-      .subscribe(({ value, player }) => {
-        WA.chat.sendChatMessage(
-          `Le joueur ${player.name} est dans la zone 'Flop Stories'`
-        );
+    WA.players.onVariableChange("inFlopZone").subscribe(({ value, player }) => {
+      WA.chat.sendChatMessage(
+        `Le joueur ${player.name} est dans la zone 'Flop Stories'`
+      );
 
-        const currentPlayerCount = WA.player.state.loadVariable(
-          "playerCount:flopStoryZone"
-        ) as number;
+      const currentPlayerCount = WA.player.state.loadVariable(
+        "playerCount:flopStoryZone"
+      ) as number;
 
-        const newPlayerCount = !!value
-          ? currentPlayerCount + 1
-          : currentPlayerCount - 1;
+      const newPlayerCount = !!value
+        ? currentPlayerCount + 1
+        : currentPlayerCount - 1;
 
-        WA.player.state.saveVariable(
-          "playerCount:flopStoryZone",
-          newPlayerCount,
-          {
-            public: false,
-            scope: "room",
-            persist: false,
-          }
-        );
-      });
+      WA.player.state.saveVariable(
+        "playerCount:flopStoryZone",
+        newPlayerCount,
+        {
+          public: false,
+          scope: "room",
+          persist: false,
+        }
+      );
+    });
 
-    WA.players.onVariableChange("inQuizArea").subscribe(({ value, player }) => {
+    WA.players.onVariableChange("inQuizZone").subscribe(({ value, player }) => {
       WA.chat.sendChatMessage(
         `Le joueur ${player.name} est dans la zone 'Quiz'`
       );
@@ -56,7 +51,7 @@ export default async function manageUsers() {
     });
 
     WA.players
-      .onVariableChange("inGuessThePersonArea")
+      .onVariableChange("inGuessZone")
       .subscribe(({ value, player }) => {
         WA.chat.sendChatMessage(
           `Le joueur ${player.name} est dans la zone 'Devine Qui?'`
@@ -76,11 +71,6 @@ export default async function manageUsers() {
         });
       });
 
-    // activate area button if all players are in the area
-    WA.player.state
-      .onVariableChange("playerCount:flopStoryZone")
-      .subscribe(() => {});
-
     WA.player.state
       .onVariableChange("playerCount:guessZone")
       .subscribe((value) => {
@@ -99,7 +89,7 @@ export default async function manageUsers() {
   } else {
     //#region flopStoryZone
     WA.room.area.onEnter("flopStoryZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inFlopStoriesArea", true, {
+      await WA.player.state.saveVariable("inFlopZone", true, {
         public: true,
         scope: "room",
         persist: false,
@@ -107,7 +97,7 @@ export default async function manageUsers() {
     });
 
     WA.room.area.onLeave("flopStoryZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inFlopStoriesArea", false, {
+      await WA.player.state.saveVariable("inFlopZone", false, {
         public: true,
         scope: "room",
         persist: false,
@@ -117,7 +107,7 @@ export default async function manageUsers() {
 
     //#region quizZone
     WA.room.area.onEnter("quizZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inQuizArea", true, {
+      await WA.player.state.saveVariable("inQuizZone", true, {
         public: true,
         scope: "room",
         persist: false,
@@ -125,7 +115,7 @@ export default async function manageUsers() {
     });
 
     WA.room.area.onLeave("quizZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inQuizArea", false, {
+      await WA.player.state.saveVariable("inQuizZone", false, {
         public: true,
         scope: "room",
         persist: false,
@@ -135,7 +125,7 @@ export default async function manageUsers() {
 
     //#region guessZone
     WA.room.area.onEnter("guessZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inGuessThePersonArea", true, {
+      await WA.player.state.saveVariable("inGuessZone", true, {
         public: true,
         scope: "room",
         persist: false,
@@ -143,7 +133,7 @@ export default async function manageUsers() {
     });
 
     WA.room.area.onLeave("guessZone").subscribe(async () => {
-      await WA.player.state.saveVariable("inGuessThePersonArea", false, {
+      await WA.player.state.saveVariable("inGuessZone", false, {
         public: true,
         scope: "room",
         persist: false,

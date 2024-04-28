@@ -28,7 +28,7 @@ export class QuizManager {
       WA.ui.modal.openModal(
         {
           title: "Bienvenue sur FlopStory !",
-          src: `${rootLink}/modals/quiz/index.html`,
+          src: new URL("/modals/quiz/index.html", rootLink).href,
           allow: null,
           allowApi: true,
           position: "center",
